@@ -34,11 +34,13 @@ class CiruclarLinkedList
 
     void insertAtEnd(T element);
 
+    void insertItemAt(T element, int index);
+
     void deleteFirst();
 
     void deleteLast();
 
-    void deleteItemAt(T index);
+    void deleteItemAt(int index);
 
     bool find(T element);
 
