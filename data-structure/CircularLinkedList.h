@@ -42,6 +42,10 @@ class CiruclarLinkedList
 
     bool find(T element);
 
+    int getSize();
+
+    void clear();
+
     T *cloneArray();
 };
 
