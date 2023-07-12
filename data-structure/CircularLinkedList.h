@@ -10,20 +10,20 @@ using namespace std;
  */
 
 template <typename T>
-class DoublyNode : public List<T>
+struct DoublyNode
 {
-public:
     T data;
     DoublyNode<T> *prev;
     DoublyNode<T> *next;
 };
 
 template <typename T>
-class CiruclarLinkedList
+class CiruclarLinkedList : public List<T>
 {
     DoublyNode<T> *head;
     int size;
 
+public:
     CiruclarLinkedList();
 
     CiruclarLinkedList(T *array, int size);
@@ -42,6 +42,8 @@ class CiruclarLinkedList
 
     void deleteItemAt(int index);
 
+    T get(int index);
+
     bool find(T element);
 
     int getSize();
@@ -51,32 +53,31 @@ class CiruclarLinkedList
     T *cloneArray();
 };
 
-template<typename T>
+template <typename T>
 CiruclarLinkedList<T>::CiruclarLinkedList()
 {
     this->head = nullptr;
     this->size = 0;
 }
 
-template<typename T>
+template <typename T>
 CiruclarLinkedList<T>::CiruclarLinkedList(T *array, int size)
 {
-
 }
 
-template<typename T>
+template <typename T>
 CiruclarLinkedList<T>::~CiruclarLinkedList()
 {
     DoublyNode<T> *next;
     while (this->head != nullptr)
     {
-        next = this->head->nextAddress;
+        next = this->head->next;
         delete this->head;
         this->head = next;
     }
 }
 
 template <typename T>
-void CiruclarLinkedList<T>::insertAtBeginning(T element) {
-    
+void CiruclarLinkedList<T>::insertAtBeginning(T element)
+{
 }
