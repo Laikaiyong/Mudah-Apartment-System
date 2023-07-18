@@ -39,9 +39,20 @@ public:
 
     void clear();
 
-    // void printAll();
-
     T *cloneArray();
+
+    T *getArray();
+
+    void printAll()
+    // temporary function, DOES NOT WORK on object
+    {
+        cout << "[";
+        for (int i = 0; i < size - 1; i++)
+        {
+            cout << this->array[i] << ",";
+        }
+        cout << this->array[size - 1] << "]" << endl;
+    }
 };
 
 template <typename T>
@@ -57,7 +68,11 @@ ArrayList<T>::ArrayList(T *array, int size)
 {
     this->capacity = size;
     this->size = size;
-    this->array = array;
+    this->array = new T[capacity];
+    for (int i = 0; i < size; i++)
+    {
+        this->array[i] = array[i];
+    }
 }
 
 template <typename T>
@@ -82,7 +97,7 @@ void ArrayList<T>::grow()
 template <typename T>
 T ArrayList<T>::get(int index)
 {
-    if (index > capacity - 1)
+    if (index < 0 || index >= size)
     {
         throw std::out_of_range("Index out of bounds");
     }
@@ -116,7 +131,7 @@ void ArrayList<T>::add(T object)
 template <typename T>
 void ArrayList<T>::add(T object, int index)
 {
-    if (index >= size)
+    if (index < 0 || index > size)
     {
         throw std::out_of_range("Index out of bounds");
     }
@@ -137,7 +152,7 @@ void ArrayList<T>::add(T object, int index)
 template <typename T>
 T ArrayList<T>::remove(int index)
 {
-    if (index >= size)
+    if (index < 0 || index >= size)
     {
         throw std::out_of_range("Index out of bounds");
     }
@@ -187,17 +202,6 @@ void ArrayList<T>::clear()
     }
 }
 
-// template <typename T>
-// void ArrayList<T>::printAll()
-// {
-//     cout << "[";
-//     for (int i = 0; i < size - 1; i++)
-//     {
-//         cout << this->array[i] << ",";
-//     }
-//     cout << this->array[size - 1] << "]" << endl;
-// }
-
 template <typename T>
 T *ArrayList<T>::cloneArray()
 {
@@ -207,4 +211,10 @@ T *ArrayList<T>::cloneArray()
         duplicateArray[i] = this->array[i];
     }
     return duplicateArray;
+}
+
+template <typename T>
+T *ArrayList<T>::getArray()
+{
+    return this->array;
 }
