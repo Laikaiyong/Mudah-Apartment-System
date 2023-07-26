@@ -1,7 +1,7 @@
 /**
  * FILENAME: ArrayList.h
  */
-
+#pragma once
 #include <iostream>
 #include <stdexcept>
 #include "List.h"
@@ -23,7 +23,7 @@ public:
 
     ~ArrayList();
 
-    T get(int index);
+    T &get(int index);
 
     int indexOf(T object);
 
@@ -66,13 +66,13 @@ ArrayList<T>::ArrayList()
 template <typename T>
 ArrayList<T>::ArrayList(T *array, int size)
 {
+    if (size <= 0 || array == nullptr)
+    {
+        throw std::invalid_argument("Invalid array or size");
+    }
     this->capacity = size;
     this->size = size;
-    this->array = new T[capacity];
-    for (int i = 0; i < size; i++)
-    {
-        this->array[i] = array[i];
-    }
+    this->array = array;
 }
 
 template <typename T>
@@ -95,7 +95,7 @@ void ArrayList<T>::grow()
 }
 
 template <typename T>
-T ArrayList<T>::get(int index)
+T &ArrayList<T>::get(int index)
 {
     if (index < 0 || index >= size)
     {

@@ -12,21 +12,21 @@ struct DoublyNode
     DoublyNode<T> *prev;
     DoublyNode<T> *next;
 
-    DoublyNode(T data)
+    DoublyNode(T &data)
     {
         this->data = data;
         this->next = nullptr;
         this->prev = nullptr;
     }
 
-    DoublyNode(T data, DoublyNode<T> *prev)
+    DoublyNode(T &data, DoublyNode<T> *prev)
     {
         this->data = data;
         this->next = nullptr;
         this->prev = prev;
     }
 
-    DoublyNode(T data, DoublyNode<T> *next, DoublyNode<T> *prev)
+    DoublyNode(T &data, DoublyNode<T> *next, DoublyNode<T> *prev)
     {
         this->data = data;
         this->next = next;
@@ -47,17 +47,17 @@ public:
 
     ~CiruclarLinkedList();
 
-    T get(int index);
+    T &get(int index);
 
     void add(T element);
 
     void add(T element, int index);
 
-    // T remove(int index);
+    T remove(int index);
 
-    // bool remove(T object);
+    bool remove(T element);
 
-    // bool find(T element);
+    bool find(T element);
 
     int getSize();
 
@@ -81,8 +81,12 @@ public:
     void showBackward()
     // temporary function
     {
-        DoublyNode<T> *current = this->head->prev;
-        cout << "--- DISPLAY LINKED LIST [FORWARD] = " << size << " elements ---" << endl;
+        DoublyNode<T> *current;
+        if (this->head != nullptr)
+        {
+            current = this->head->prev;
+        }
+        cout << "--- DISPLAY LINKED LIST [BACKWARD] = " << size << " elements ---" << endl;
         for (int i = 0; i < size; i++)
         {
             std::cout << current->data << " ";
@@ -123,7 +127,7 @@ CiruclarLinkedList<T>::~CiruclarLinkedList()
 }
 
 template <typename T>
-T CiruclarLinkedList<T>::get(int index)
+T &CiruclarLinkedList<T>::get(int index)
 {
     if (index < 0 || index >= size)
     {
@@ -164,21 +168,24 @@ void CiruclarLinkedList<T>::add(T element, int index)
     {
         throw std::out_of_range("Index out of bounds");
     }
-    DoublyNode<T> *current;
+    if (this->head == nullptr && index == 0)
+    {
+        add(element);
+        return;
+    }
+    DoublyNode<T> *current = this->head;
     int mid = this->size / 2;
 
     if (index <= mid)
     {
-        current = this->head;
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < index; i++)
         {
             current = current->next;
         }
     }
     else
     {
-        current = this->head->prev;
-        for (int i = size; i > 0; i--)
+        for (int i = size; i > index; i--)
         {
             current = current->prev;
         }
@@ -186,7 +193,101 @@ void CiruclarLinkedList<T>::add(T element, int index)
     DoublyNode<T> *newNode = new DoublyNode<T>(element, current, current->prev);
     current->prev->next = newNode;
     current->prev = newNode;
+    if (index == 0)
+    {
+        this->head = newNode;
+    }
     this->size++;
+}
+
+template <typename T>
+T CiruclarLinkedList<T>::remove(int index)
+{
+    if (index < 0 || index >= size)
+    {
+        throw std::out_of_range("Index out of bounds");
+    }
+
+    DoublyNode<T> *current = this->head;
+    int mid = this->size / 2;
+
+    if (index <= mid)
+    {
+        for (int i = 0; i < index; i++)
+        {
+            current = current->next;
+        }
+    }
+    else
+    {
+        for (int i = size; i > index; i--)
+        {
+            current = current->prev;
+        }
+    }
+    T data = current->data;
+
+    if (size == 1)
+    {
+        this->head = nullptr;
+    }
+    else
+    {
+        current->next->prev = current->prev;
+        current->prev->next = current->next;
+        if (index == 0)
+        {
+            this->head = current->next;
+        }
+    }
+    delete current;
+    this->size--;
+    return data;
+}
+
+template <typename T>
+bool CiruclarLinkedList<T>::remove(T element)
+{
+    DoublyNode<T> *current = this->head;
+    for (int i = 0; i < size; i++)
+    {
+        if (current->data == element)
+        {
+            if (size == 1)
+            {
+                this->head = nullptr;
+            }
+            else
+            {
+                current->next->prev = current->prev;
+                current->prev->next = current->next;
+                if (i == 0)
+                {
+                    this->head = current->next;
+                }
+            }
+            delete current;
+            this->size--;
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+template <typename T>
+bool CiruclarLinkedList<T>::find(T element)
+{
+    DoublyNode<T> *current = this->head;
+    for (int i = 0; i < size; i++)
+    {
+        if (current->data == element)
+        {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
 }
 
 template <typename T>
