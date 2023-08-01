@@ -1,8 +1,10 @@
 /**
  * FILENAME: DoublyLinkedList.h
  */
-
+#pragma once
 #include <iostream>
+#include <stdexcept>
+#include "List.h"
 using namespace std;
 
 template <typename T>
@@ -108,7 +110,7 @@ CiruclarLinkedList<T>::CiruclarLinkedList(T *array, int size)
 {
     if (size <= 0 || array == nullptr)
     {
-        throw std::invalid_argument("Invalid array or size");
+        throw invalid_argument("Invalid array or size");
     }
 
     this->head = nullptr;
@@ -131,7 +133,7 @@ T &CiruclarLinkedList<T>::get(int index)
 {
     if (index < 0 || index >= size)
     {
-        throw std::out_of_range("Index out of bounds");
+        throw out_of_range("Index out of bounds");
     }
     DoublyNode<T> *current = this->head;
     for (int i = 0; i < index; i++)
@@ -166,7 +168,7 @@ void CiruclarLinkedList<T>::add(T element, int index)
 {
     if (index < 0 || index > size)
     {
-        throw std::out_of_range("Index out of bounds");
+        throw out_of_range("Index out of bounds");
     }
     if (this->head == nullptr && index == 0)
     {
@@ -205,7 +207,7 @@ T CiruclarLinkedList<T>::remove(int index)
 {
     if (index < 0 || index >= size)
     {
-        throw std::out_of_range("Index out of bounds");
+        throw out_of_range("Index out of bounds");
     }
 
     DoublyNode<T> *current = this->head;
