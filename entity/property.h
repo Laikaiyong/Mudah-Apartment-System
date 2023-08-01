@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 using namespace std;
@@ -20,6 +21,9 @@ class Property
     string rentStatus;
 
 public:
+
+    Property() {};
+
     Property(string adsId, string propName, int completionYear, float monthlyRent, string location, string propertyType, int rooms, int parking, int bathroom, int size, string furnished, string facilities, string additionalFacilities, string rentStatus)
     {
         this->adsId = adsId;

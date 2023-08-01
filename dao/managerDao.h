@@ -8,16 +8,14 @@ class ManagerDao
 {
     static ManagerDao *instancePtr;
 
-    CiruclarLinkedList<Manager> list;
+    CiruclarLinkedList<Manager> *list;
 
     ManagerDao()
     {
+        list = new CiruclarLinkedList<Manager>();
     }
 
 public:
-    // deleting copy constructor
-    ManagerDao(const ManagerDao &obj) = delete;
-
     static ManagerDao *getInstance();
 
 

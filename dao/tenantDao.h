@@ -4,32 +4,30 @@
 
 using namespace std;
 
-class ManagerDao
+class TenantDao
 {
-    static ManagerDao *instancePtr;
+    static TenantDao *instancePtr;
 
-    CiruclarLinkedList<Tenant> list;
+    CiruclarLinkedList<Tenant> *list;
 
-    ManagerDao()
+    TenantDao()
     {
+        list = new CiruclarLinkedList<Tenant>();
     }
 
 public:
-    // deleting copy constructor
-    ManagerDao(const ManagerDao &obj) = delete;
-
-    static ManagerDao *getInstance();
+    static TenantDao *getInstance();
 
 
 };
 
-ManagerDao *ManagerDao::instancePtr = nullptr;
+TenantDao *TenantDao::instancePtr = nullptr;
 
-ManagerDao *ManagerDao::getInstance()
+TenantDao *TenantDao::getInstance()
 {
     if (instancePtr == nullptr)
     {
-        instancePtr = new ManagerDao();
+        instancePtr = new TenantDao();
     }
     return instancePtr;
 }
