@@ -2,6 +2,7 @@
 #include "../data-structure/ArrayList.h"
 #include "../entity/property.h"
 #include "../file/readFile.h"
+#include "../sorting/mergeSort.h"
 
 using namespace std;
 
@@ -15,12 +16,16 @@ class PropertyDao
     {
         int rowSize = 19991;
         list = new ArrayList<Property>(readFile(rowSize), rowSize);
+        this->sortByDesc();
+        this->printAll();
     }
 
 public:
     static PropertyDao *getInstance();
 
     void printAll();
+
+    void sortByDesc();
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
@@ -40,6 +45,7 @@ void PropertyDao::printAll()
     for (int n = 0; n < list->getSize(); n++)
     {
         property = list->get(n);
+        cout << "Index: " << n << endl;
         cout << "Ads id: " << property.getAdsId() << endl;
         cout << "Property Name: " << property.getPropName() << endl;
         cout << "Completion Year: " << property.getCompletionYear() << endl;
@@ -53,5 +59,20 @@ void PropertyDao::printAll()
         cout << "Furnished: " << property.getFurnished() << endl;
         cout << "Facilities: " << property.getFacilities() << endl;
         cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
+        cout << "-------------------------------------" << endl << endl;
     }
+}
+
+void PropertyDao::sortByDesc()
+{
+    mergeSort(list->getArray(), list->getSize(), [](Property &p1, Property &p2)
+              {
+                  if (p1.getMonthlyRent() != p2.getMonthlyRent()) {
+                    return p1.getMonthlyRent() > p2.getMonthlyRent();
+                  } 
+                  else if (p1.getLocation() != p2.getLocation()) {
+                    return p1.getLocation() > p2.getLocation();
+                  }
+                  return p1.getSize() >= p1.getSize(); });
+    cout << "Finish sort by descending order" << endl;
 }
