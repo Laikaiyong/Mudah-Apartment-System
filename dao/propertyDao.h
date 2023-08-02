@@ -17,7 +17,6 @@ class PropertyDao
         int rowSize = 19991;
         list = new ArrayList<Property>(readFile(rowSize), rowSize);
         this->sortByDesc();
-        this->printAll();
     }
 
 public:
