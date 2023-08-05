@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 #include "../data-structure/ArrayList.h"
 #include "../entity/property.h"
 #include "../file/readFile.h"
@@ -23,7 +24,11 @@ class PropertyDao
 public:
     static PropertyDao *getInstance();
 
+    int getSize();
+
     void printAll();
+
+    void displayProperyByPage(int propPerPage, int startPage);
 
     void sortByDesc();
 
@@ -39,6 +44,11 @@ PropertyDao *PropertyDao::getInstance()
         instancePtr = new PropertyDao();
     }
     return instancePtr;
+}
+
+int PropertyDao::getSize()
+{
+    return list->getSize();
 }
 
 void PropertyDao::printAll()
@@ -63,6 +73,38 @@ void PropertyDao::printAll()
         cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
         cout << "-------------------------------------" << endl
              << endl;
+    }
+}
+
+void PropertyDao::displayProperyByPage(int propPerPage, int startPage)
+{
+    if (startPage < 1)
+    {
+        throw invalid_argument("Starting page must be more than or equal one");
+    }
+    int restProp = list->getSize() % propPerPage;
+    int totalPage = restProp > 0 ? (list->getSize() / propPerPage) + 1 : list->getSize() / propPerPage;
+
+    if (startPage > totalPage)
+    {
+        throw runtime_error("Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")");
+    }
+
+    int start = (startPage - 1) * propPerPage;
+    int end;
+
+    if (startPage == totalPage)
+    {
+        end = start + restProp;
+    }
+    else
+    {
+        end = start + propPerPage;
+    }
+
+    for (int i = start; i < end; i++)
+    {
+        cout << list->get(i) << endl;
     }
 }
 
