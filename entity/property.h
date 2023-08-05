@@ -21,8 +21,7 @@ class Property
     string rentStatus;
 
 public:
-
-    Property() {};
+    Property(){};
 
     Property(string adsId, string propName, int completionYear, float monthlyRent, string location, string propertyType, int rooms, int parking, int bathroom, int size, string furnished, string facilities, string additionalFacilities, string rentStatus)
     {
@@ -40,6 +39,27 @@ public:
         this->facilities = facilities;
         this->additionalFacilities = additionalFacilities;
         this->rentStatus = rentStatus;
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Property &property)
+    {
+        // Code to output the object's data to the ostream
+        os << "Property Details:" << endl;
+        os << "Ads ID: " << property.adsId << endl;
+        os << "Property Name: " << property.propName << endl;
+        os << "Completion Year: " << property.completionYear << endl;
+        os << "Monthly Rent: " << property.monthlyRent << endl;
+        os << "Location: " << property.location << endl;
+        os << "Property Type: " << property.propertyType << endl;
+        os << "Rooms: " << property.rooms << endl;
+        os << "Parking: " << property.parking << endl;
+        os << "Bathroom: " << property.bathroom << endl;
+        os << "Size: " << property.size << endl;
+        os << "Furnished: " << property.furnished << endl;
+        os << "Facilities: " << property.facilities << endl;
+        os << "Additional Facilities: " << property.additionalFacilities << endl;
+        os << "Rent Status: " << property.rentStatus << endl;
+        return os;
     }
 
     string getAdsId()

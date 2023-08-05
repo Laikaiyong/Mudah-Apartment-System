@@ -63,8 +63,8 @@ Property *readFile(int rowSize)
             property.setMonthlyRent(stof(temp));
         }
 
-        property.setLocation(data[4]);
-        property.setPropertyType(data[5]);
+        property.setLocation((data[4].empty()) ? "-" : data[4]);
+        property.setPropertyType((data[5].empty()) ? "-" : data[5]);
         try
         {
             property.setRooms((data[6].empty()) ? -1 : stoi(data[6]));
@@ -87,9 +87,10 @@ Property *readFile(int rowSize)
             property.setSize(stoi(temp));
         }
 
-        property.setFurnished(data[10]);
-        property.setFacilities(data[11]);
-        property.setAdditionalFacilities(data[12]);
+        property.setFurnished((data[10].empty()) ? "-" : data[10]);
+        property.setFacilities((data[11].empty()) ? "-" : data[11]);
+        property.setAdditionalFacilities((data[12].empty()) ? "-" : data[12]);
+        property.setRentStatus("Available");
 
         propertyList[j++] = property;
     }
