@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "../data-structure/ArrayList.h"
 #include "../entity/property.h"
@@ -25,6 +26,8 @@ public:
     void printAll();
 
     void sortByDesc();
+
+    // Property &getById();
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
@@ -58,7 +61,8 @@ void PropertyDao::printAll()
         cout << "Furnished: " << property.getFurnished() << endl;
         cout << "Facilities: " << property.getFacilities() << endl;
         cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
-        cout << "-------------------------------------" << endl << endl;
+        cout << "-------------------------------------" << endl
+             << endl;
     }
 }
 
@@ -75,3 +79,7 @@ void PropertyDao::sortByDesc()
                   return p1.getSize() >= p1.getSize(); });
     cout << "Finish sort by descending order" << endl;
 }
+
+// Property &PropertyDao::getById() {
+
+// }

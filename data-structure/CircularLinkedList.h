@@ -61,6 +61,9 @@ public:
 
     bool find(T element);
 
+    template <typename Compare>
+    bool customFind(T element, Compare compare);
+
     int getSize();
 
     void clear();
@@ -284,6 +287,22 @@ bool CiruclarLinkedList<T>::find(T element)
     for (int i = 0; i < size; i++)
     {
         if (current->data == element)
+        {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+template <typename T>
+template <typename Compare>
+bool CiruclarLinkedList<T>::customFind(T element, Compare compare)
+{
+    DoublyNode<T> *current = this->head;
+    for (int i = 0; i < size; i++)
+    {
+        if (compare(current->data, element))
         {
             return true;
         }

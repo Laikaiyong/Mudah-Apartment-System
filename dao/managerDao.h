@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "../data-structure/CircularLinkedList.h"
 #include "../entity/manager.h"
