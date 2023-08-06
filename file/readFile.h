@@ -46,8 +46,8 @@ Property *readFile(int rowSize)
         };
 
         property.setAdsId(data[0]);
-        property.setPropName(data[1]);
-        property.setCompletionYear((data[2].empty()) ? -1 : stoi(data[2]));
+        property.setPropName(data[1].empty() ? "-" : data[1]);
+        property.setCompletionYear(data[2].empty() ? -1 : stoi(data[2]));
 
         if (data[3].empty())
         {
@@ -63,19 +63,19 @@ Property *readFile(int rowSize)
             property.setMonthlyRent(stof(temp));
         }
 
-        property.setLocation((data[4].empty()) ? "-" : data[4]);
-        property.setPropertyType((data[5].empty()) ? "-" : data[5]);
+        property.setLocation(data[4].empty() ? "-" : data[4]);
+        property.setPropertyType(data[5].empty() ? "-" : data[5]);
         try
         {
-            property.setRooms((data[6].empty()) ? -1 : stoi(data[6]));
+            property.setRooms(data[6].empty() ? -1 : stoi(data[6]));
         }
         catch (exception)
         {
             property.setRooms(10);
         }
 
-        property.setParking((data[7].empty()) ? -1 : stoi(data[7]));
-        property.setBathroom((data[8].empty()) ? -1 : stoi(data[8]));
+        property.setParking(data[7].empty() ? -1 : stoi(data[7]));
+        property.setBathroom(data[8].empty() ? -1 : stoi(data[8]));
 
         if (data[9].empty())
         {
@@ -87,9 +87,9 @@ Property *readFile(int rowSize)
             property.setSize(stoi(temp));
         }
 
-        property.setFurnished((data[10].empty()) ? "-" : data[10]);
-        property.setFacilities((data[11].empty()) ? "-" : data[11]);
-        property.setAdditionalFacilities((data[12].empty()) ? "-" : data[12]);
+        property.setFurnished(data[10].empty() ? "-" : data[10]);
+        property.setFacilities(data[11].empty() ? "-" : data[11]);
+        property.setAdditionalFacilities(data[12].empty() ? "-" : data[12]);
         property.setRentStatus("Available");
 
         propertyList[j++] = property;
