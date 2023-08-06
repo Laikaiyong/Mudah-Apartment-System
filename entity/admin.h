@@ -7,5 +7,5 @@ class Admin : public User
 {
 
 public:
-    Admin(string userId, string username, string password, int role) : User(userId, username, password, role) {};
+    Admin(int userId, string username, string password, int role) : User(userId, username, password, role) {};
 };
