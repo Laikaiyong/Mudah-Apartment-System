@@ -1,6 +1,6 @@
 #include <iostream>
-#include "pages/login.h"
-#include "pages/signUp.h"
+#include "signUp.h"
+#include "login.h"
 
 using namespace std;
 
@@ -10,17 +10,25 @@ void homePage()
     cout << "Welcome to APH renting system\n\nPlease select a role\n\n1 : Manager\n2 : Tenant\n3 : Admin\n\n" << endl;
     while (true)
     {
-        cout << "Choice: " << endl;
+        cout << "Choice: ";
         cin >> roleChoice;
 
         if (roleChoice == 1)
         {
-            login
+           managerLoginPage();
         }
-        if (!TenantDao->checkTenantUsernameTaken(username))
+        else if (roleChoice == 2)
         {
-            break;
+            tenantLoginPage();
         }
-        cout << "Username has been taken." << endl;
+        else if (roleChoice == 3)
+        {
+            adminLoginPage();
+        }
+        else
+        {
+            cout << "\nInvalid Option, please try again.\n" << endl;
+            return;
+        }
     }
 }

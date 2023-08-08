@@ -1,53 +1,44 @@
 #include <iostream>
 #include "../dao/tenantDao.h"
-#include "../dao/managerDao.h"
+#include "../pages/admin/home.h"
 
 using namespace std;
 
-void logInPage()
+void adminLoginPage()
 {
-    TenantDao *TenantDao = TenantDao::getInstance();
-    string username = "";
-    string pwd = "";
-    cout << "Login as tenant, please fill in the information. Press \"0\" and enter to cancel sign up." << endl;
-    while (true)
+    int attempt = 1;
+    for (attempt; attempt <= 3; attempt++)
     {
-        cout << "Username: " << endl;
+        string adminUsername = "admin";
+        string adminPassword = "pwd";
+        string username, password;
+        cout << "\n**Admin Login**\nAttempt " << attempt << "\nUsername: ";
         cin >> username;
+        
+        cout << "Password: ";
+        cin >> password;
 
-        if (username == "0")
+        if (
+            adminUsername == username &&
+            adminPassword == password
+        )
         {
-            return;
-        }
-        if (!TenantDao->checkTenantUsernameTaken(username))
-        {
+            adminHome();
             break;
         }
-        cout << "Username has been taken." << endl;
+        else
+        {
+            cout << "Invalid credentials, try again.\n" << endl;
+        }
     }
+}
 
-    while (true)
-    {
-        string comfirmPwd = "";
-        cout << "Password: " << endl;
-        cin >> pwd;
-        if (pwd == "0")
-        {
-            return;
-        }
-        cout << "Comfirm Password: " << endl;
-        cin >> comfirmPwd;
+void tenantLoginPage()
+{
+    
+}
 
-        if (comfirmPwd == "0")
-        {
-            return;
-        }
-        if (pwd == comfirmPwd)
-        {
-            break;
-        }
-        cout << "Password is not same as comfirm password." << endl;
-    }
-    TenantDao->createTenant(username, pwd);
-    cout << "Account created successfully" << endl;
+void managerLoginPage()
+{
+    
 }

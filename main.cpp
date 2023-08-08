@@ -1,12 +1,13 @@
 #include <iostream>
 #include "dao/propertyDao.h"
+#include "pages/home.h"
 
 using namespace std;
 
 int main()
 {
     PropertyDao* propertyDao = PropertyDao::getInstance();
-    // propertyDao->sortMonthlyRentByAsc();
-    // propertyDao->printAll();
+    homePage();
+
     return 0;
 }
