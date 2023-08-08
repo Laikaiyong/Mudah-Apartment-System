@@ -5,7 +5,7 @@ using namespace std;
 
 void signUpPage()
 {
-    TenantDao *TenantDao = TenantDao::getInstance();
+    TenantDao *tenantDao = TenantDao::getInstance();
     string username = "";
     string pwd = "";
     cout << "Sign Up as tenant, please fill in the information. Press \"0\" and enter to cancel sign up." << endl;
@@ -18,7 +18,7 @@ void signUpPage()
         {
             return;
         }
-        if (!TenantDao->checkTenantUsernameTaken(username))
+        if (!tenantDao->checkTenantUsernameTaken(username))
         {
             break;
         }
@@ -47,6 +47,6 @@ void signUpPage()
         }
         cout << "Password is not same as comfirm password." << endl;
     }
-    TenantDao->createTenant(username, pwd);
+    tenantDao->createTenant(username, pwd);
     cout << "Account created successfully" << endl;
 }
