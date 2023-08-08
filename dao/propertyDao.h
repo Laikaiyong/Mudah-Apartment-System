@@ -33,8 +33,19 @@ public:
 
     void printAll();
 
+    /*  display the list by pages
+        parameter: 
+        propPerPage - number of property shown in one page
+        startPage - starting page to display
+        Example: propPerPage = 10, startPage = 3, display start from index (30 - 1) */
     void displayAllPropsByPage(int propPerPage, int startPage);
 
+    
+    /*  display the filter list by pages
+        parameter: 
+        propPerPage - number of property shown in one page
+        startPage - starting page to display
+        Example: propPerPage = 5, startPage = 7, display start from index (35 - 1) */
     void displayFilterPropsByPage(int propPerPage, int startPage);
 
     void sortByDesc();
@@ -44,7 +55,7 @@ public:
     template <typename Filter>
     void filter(Filter compare);
 
-    optional<Property> getById(const Property &property);
+    optional<Property> getById(string id);
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
@@ -212,8 +223,10 @@ void PropertyDao::filter(Filter compare)
     cout << "Successfully filter property" << endl;
 }
 
-optional<Property> PropertyDao::getById(const Property &property)
+optional<Property> PropertyDao::getById(string id)
 {
+    Property property;
+    property.setAdsId(id);
     sortIdByAsc();
     int index = binarySearch(this->list->getArray(), this->list->getSize(), property, [](Property &p1, Property &p2)
                              { return p1.getAdsId() < p2.getAdsId(); });
