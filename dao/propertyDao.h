@@ -33,8 +33,19 @@ public:
 
     void printAll();
 
+    /*  display the list by pages
+        parameter: 
+        propPerPage - number of property shown in one page
+        startPage - starting page to display
+        Example: propPerPage = 10, startPage = 3, display start from index (30 - 1) */
     void displayAllPropsByPage(int propPerPage, int startPage);
 
+    
+    /*  display the filter list by pages
+        parameter: 
+        propPerPage - number of property shown in one page
+        startPage - starting page to display
+        Example: propPerPage = 5, startPage = 7, display start from index (35 - 1) */
     void displayFilterPropsByPage(int propPerPage, int startPage);
 
     void sortByDesc();

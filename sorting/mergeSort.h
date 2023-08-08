@@ -45,7 +45,7 @@ void merge(T *array, T *leftArray, T *rightArray, int leftSize, int rightSize, C
 
     while (l < leftSize && r < rightSize)
     {
-        // compare left array and right array element, left < right
+        // compare left array and right array element, left < right if ascending order, left > right if descending order
         if (compare(leftArray[l], rightArray[r]))
         {
             array[i++] = leftArray[l++];

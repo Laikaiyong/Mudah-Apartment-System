@@ -11,7 +11,7 @@ int binarySearch(T *array, int size, T value, Compare compare)
     {
         int mid = left + (right - left) / 2;
 
-        if (compare(array[mid], value))
+        if (compare(array[mid], value)) // comparison must use < if ascending order
         {
             left = mid + 1; // Value is greater, ignore left half
         }
