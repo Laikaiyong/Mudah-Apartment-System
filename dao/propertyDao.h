@@ -44,7 +44,7 @@ public:
     template <typename Filter>
     void filter(Filter compare);
 
-    optional<Property> getById(const Property &property);
+    optional<Property> getById(string id);
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
@@ -212,8 +212,10 @@ void PropertyDao::filter(Filter compare)
     cout << "Successfully filter property" << endl;
 }
 
-optional<Property> PropertyDao::getById(const Property &property)
+optional<Property> PropertyDao::getById(string id)
 {
+    Property property;
+    property.setAdsId(id);
     sortIdByAsc();
     int index = binarySearch(this->list->getArray(), this->list->getSize(), property, [](Property &p1, Property &p2)
                              { return p1.getAdsId() < p2.getAdsId(); });
