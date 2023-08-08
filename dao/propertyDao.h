@@ -6,6 +6,7 @@
 #include "../entity/property.h"
 #include "../file/readFile.h"
 #include "../sorting/mergeSort.h"
+#include "../sorting/oldQuickSort.h"
 #include "../searching/binarySearch.h"
 
 using namespace std;
@@ -24,6 +25,7 @@ class PropertyDao
         list = new ArrayList<Property>(readFile(rowSize), rowSize);
         filterList = new ArrayList<Property>();
         this->sortByDesc();
+        this->printAll();
     }
 
 public:
@@ -51,6 +53,8 @@ public:
     void sortByDesc();
 
     void sortIdByAsc();
+
+    void sortMonthlyRentByAsc();
 
     template <typename Filter>
     void filter(Filter compare);
@@ -189,6 +193,14 @@ void PropertyDao::sortIdByAsc()
               { return p1.getAdsId() < p2.getAdsId(); });
     PropertyDao::currentSort = 1;
     cout << "Finish sort ID by ascending order" << endl;
+}
+
+void PropertyDao::sortMonthlyRentByAsc()
+{
+    quickSort(list->getArray(), 0, list->getSize() - 1,  [](Property &p1, Property &p2)
+              { return p1.getMonthlyRent() < p2.getMonthlyRent(); });
+    PropertyDao::currentSort = 2;
+    cout << "Finish sort Monthly Rent by ascending order" << endl;
 }
 
 template <typename Filter>
