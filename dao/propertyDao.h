@@ -6,6 +6,7 @@
 #include "../entity/property.h"
 #include "../file/readFile.h"
 #include "../sorting/mergeSort.h"
+#include "../sorting/quickSort.h"
 #include "../searching/binarySearch.h"
 
 using namespace std;
@@ -33,6 +34,8 @@ public:
 
     void printAll();
 
+    void printTopN(int num);
+
     /*  display the list by pages
         parameter: 
         propPerPage - number of property shown in one page
@@ -51,6 +54,8 @@ public:
     void sortByDesc();
 
     void sortIdByAsc();
+
+    void sortMonthlyRentByAsc();
 
     template <typename Filter>
     void filter(Filter compare);
@@ -79,6 +84,31 @@ void PropertyDao::printAll()
 {
     Property property;
     for (int n = 0; n < list->getSize(); n++)
+    {
+        property = list->get(n);
+        cout << "Index: " << n << endl;
+        cout << "Ads id: " << property.getAdsId() << endl;
+        cout << "Property Name: " << property.getPropName() << endl;
+        cout << "Completion Year: " << property.getCompletionYear() << endl;
+        cout << "Monthly Rent: " << property.getMonthlyRent() << endl;
+        cout << "Location: " << property.getLocation() << endl;
+        cout << "Property Type: " << property.getPropertyType() << endl;
+        cout << "Rooms: " << property.getRooms() << endl;
+        cout << "Parking: " << property.getParking() << endl;
+        cout << "Bathroom: " << property.getBathroom() << endl;
+        cout << "Size: " << property.getSize() << endl;
+        cout << "Furnished: " << property.getFurnished() << endl;
+        cout << "Facilities: " << property.getFacilities() << endl;
+        cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
+        cout << "-------------------------------------" << endl
+             << endl;
+    }
+}
+
+void PropertyDao::printTopN(int num)
+{
+    Property property;
+    for (int n = 0; n < num; n++)
     {
         property = list->get(n);
         cout << "Index: " << n << endl;
@@ -189,6 +219,14 @@ void PropertyDao::sortIdByAsc()
               { return p1.getAdsId() < p2.getAdsId(); });
     PropertyDao::currentSort = 1;
     cout << "Finish sort ID by ascending order" << endl;
+}
+
+void PropertyDao::sortMonthlyRentByAsc()
+{
+    quickSort(list->getArray(), 0, list->getSize() - 1,  [](Property &p1, Property &p2)
+              { return p1.getMonthlyRent() < p2.getMonthlyRent(); });
+    PropertyDao::currentSort = 2;
+    cout << "Finish sort Monthly Rent by ascending order" << endl;
 }
 
 template <typename Filter>
