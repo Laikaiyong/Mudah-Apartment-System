@@ -4,11 +4,10 @@
 
 using namespace std;
 
-bool selectProperty()
+void selectProperty(optional<Property> &optionalProperty)
 {
     PropertyDao *propertyDao = PropertyDao::getInstance();
     string id;
-    optional<Property> optionalProperty;
     while (true)
     {
         cout << "To go back, press \"e\" and enter." << endl;
@@ -16,7 +15,8 @@ bool selectProperty()
         cin >> id;
         if (id == "e")
         {
-            return true;
+            optionalProperty = nullopt;
+            return;
         }
         optionalProperty = propertyDao->getById(id);
         if (optionalProperty.has_value())
@@ -27,12 +27,20 @@ bool selectProperty()
     }
     cout << endl;
     cout << optionalProperty.value() << endl;
-    return false;
+}
+
+void addFavouriteProperty(Property &property)
+{
+    // TODO: add into tenant favourite list
+    cout << property << endl;
+    cout << "Successfully added the selected property into your favourite property list.";
 }
 
 void displaySpecificPropertyPage()
 {
-    if (selectProperty())
+    optional<Property> optionalProperty;
+    selectProperty(optionalProperty);
+    if (!optionalProperty.has_value())
     {
         return;
     }
@@ -51,10 +59,12 @@ void displaySpecificPropertyPage()
             return;
             break;
         case 1:
-            cout << "Add as favourite" << endl;
+            addFavouriteProperty(optionalProperty.value());
+            return;
             break;
         case 2:
-            if (selectProperty())
+            selectProperty(optionalProperty);
+            if (!optionalProperty.has_value())
             {
                 return;
             }

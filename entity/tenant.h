@@ -41,26 +41,56 @@ public:
         active = newActive;
     }
 
-    void *displayFavouritePropertyList();
+    void displayFavouritePropertyList(int propPerPage, int startPage);
 
     CiruclarLinkedList<Property> *getFavouritePropertyList();
 
     void addFavourtiteProperty(Property property);
 
-    bool removeFavouriteProperty(Property property);
+    bool removeFavouritePropertyById(string id);
 
-    void *displayRentHistoryPropertyList();
+    void displayRentHistoryPropertyList(int propPerPage, int startPage);
 
     void addRentHistoryPropertyList(Property property);
 };
 
-void *Tenant::displayFavouritePropertyList()
+void Tenant::displayFavouritePropertyList(int propPerPage, int startPage)
 {
-    cout << endl;
-    for (int i = 0; i < this->favourtitePropertyList->getSize(); i++)
+    if (startPage < 1)
     {
-        this->favourtitePropertyList->showForward();
-    };
+        throw invalid_argument("Starting page must be more than or equal one");
+    }
+    if (favourtitePropertyList->getSize() == 0)
+    {
+        cout << "Your Favourite Property is empty" << endl;
+        return;
+    }
+    int restProp = favourtitePropertyList->getSize() % propPerPage;
+    int totalPage = restProp > 0 ? (favourtitePropertyList->getSize() / propPerPage) + 1 : favourtitePropertyList->getSize() / propPerPage;
+
+    if (startPage > totalPage)
+    {
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
+    }
+
+    int start = (startPage - 1) * propPerPage;
+    int end;
+
+    if (startPage == totalPage)
+    {
+        end = start + restProp;
+    }
+    else
+    {
+        end = start + propPerPage;
+    }
+    cout << endl;
+    for (int i = start; i < end; i++)
+    {
+        cout << favourtitePropertyList->get(i) << endl;
+    }
 }
 
 CiruclarLinkedList<Property> *Tenant::getFavouritePropertyList()
@@ -73,18 +103,57 @@ void Tenant::addFavourtiteProperty(Property property)
     this->favourtitePropertyList->add(property);
 }
 
-bool Tenant::removeFavouriteProperty(Property property)
+bool Tenant::removeFavouritePropertyById(string id)
 {
-    return this->favourtitePropertyList->remove(property);
+    Property property;
+    property.setAdsId(id);
+    int index = this->favourtitePropertyList->customIndexOf(property, [](Property &p1, Property &p2)
+                                                         { return p1.getAdsId() == p2.getAdsId(); });
+    if (index == -1)
+    {
+        return false;
+    }
+    this->favourtitePropertyList->remove(index);
+    return true;
 }
 
-void *Tenant::displayRentHistoryPropertyList()
+void Tenant::displayRentHistoryPropertyList(int propPerPage, int startPage)
 {
-    cout << endl;
-    for (int i = 0; i < this->rentHistoryPropertyList->getSize(); i++)
+    if (startPage < 1)
     {
-        cout << this->rentHistoryPropertyList->get(i) << endl;;
-    };
+        throw invalid_argument("Starting page must be more than or equal one");
+    }
+    if (favourtitePropertyList->getSize() == 0)
+    {
+        cout << "Your Rent History of Property is empty" << endl;
+        return;
+    }
+    int restProp = rentHistoryPropertyList->getSize() % propPerPage;
+    int totalPage = restProp > 0 ? (rentHistoryPropertyList->getSize() / propPerPage) + 1 : rentHistoryPropertyList->getSize() / propPerPage;
+
+    if (startPage > totalPage)
+    {
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
+    }
+
+    int start = (startPage - 1) * propPerPage;
+    int end;
+
+    if (startPage == totalPage)
+    {
+        end = start + restProp;
+    }
+    else
+    {
+        end = start + propPerPage;
+    }
+    cout << endl;
+    for (int i = start; i < end; i++)
+    {
+        cout << rentHistoryPropertyList->get(i) << endl;
+    }
 }
 
 void Tenant::addRentHistoryPropertyList(Property property)

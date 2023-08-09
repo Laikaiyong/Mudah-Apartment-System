@@ -141,7 +141,9 @@ void PropertyDao::displayAllPropsByPage(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        throw runtime_error("Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")");
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
     }
 
     int start = (startPage - 1) * propPerPage;
@@ -173,7 +175,9 @@ void PropertyDao::displayFilterPropsByPage(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        throw runtime_error("Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")");
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
     }
 
     int start = (startPage - 1) * propPerPage;
