@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <optional>
 #include "../data-structure/CircularLinkedList.h"
 #include "../entity/tenant.h"
 
@@ -25,12 +26,14 @@ public:
 
     void createTenant(string &username, string &password);
 
-    void printall() {
-        Tenant tenant;
-        for (int i = 0; i < list->getSize(); i++) 
-        {
-            tenant = list->get(i);
-        }
+    optional<Tenant> getTenantById(int id);
+
+    bool deleteTenantById(int id);
+
+    // temporary function
+    void printall()
+    {
+        this->list->showForward();
     }
 };
 
@@ -50,8 +53,8 @@ bool TenantDao::checkTenantUsernameTaken(string &username)
 {
     Tenant tenant;
     tenant.setUsername(username);
-    return list->customFind(tenant, [](Tenant &t1, Tenant &t2)
-                            { return t1.getUsername() == t2.getUsername(); });
+    return this->list->customFind(tenant, [](Tenant &t1, Tenant &t2)
+                                  { return t1.getUsername() == t2.getUsername(); });
 }
 
 Tenant TenantDao::getTenantByUsername(string &username)
@@ -81,4 +84,31 @@ void TenantDao::createTenant(string &username, string &password)
     tenant.setRole(1);
     tenant.setActive(true);
     list->add(tenant);
+}
+
+optional<Tenant> TenantDao::getTenantById(int id)
+{
+    Tenant tenant;
+    tenant.setUserId(id);
+    int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
+                                          { return t1.getUserId() == t2.getUserId(); });
+    if (index == -1)
+    {
+        return nullopt;
+    }
+    return this->list->get(index);
+}
+
+bool TenantDao::deleteTenantById(int id)
+{
+    Tenant tenant;
+    tenant.setUserId(id);
+    int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
+                                          { return t1.getUserId() == t2.getUserId(); });
+    if (index == -1)
+    {
+        return false;
+    }
+    this->list->remove(index);
+    return true;
 }

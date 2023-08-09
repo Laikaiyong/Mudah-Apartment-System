@@ -1,21 +1,20 @@
 #include <iostream>
-#include "../../dao/propertyDao.h"
-#include "displaySpecificProperty.h"
+#include "../../entity/Tenant.h"
+#include "../../functionality/tenantFunc.h"
 
 using namespace std;
 
-void displayPropertyPage()
+void favouritePropertiesPage()
 {
+    Tenant tenant;
     int selectedPage = 1;
-    PropertyDao *propertyDao = PropertyDao::getInstance();
     int input;
     while (true)
     {
-        propertyDao->sortByDesc();
-        propertyDao->displayAllPropsByPage(10, selectedPage);
+        tenant.displayFavouritePropertyList(10, selectedPage);
         cout << "Current Page: " + to_string(selectedPage) << endl;
         cout << "Please press your selected option:" << endl;
-        cout << "Option 1: Select specific property." << endl;
+        cout << "Option 1: Remove specific favourite property." << endl;
         cout << "Option 2: Change page." << endl;
         cout << "Option 0: Back." << endl;
         cin >> input;
@@ -26,7 +25,7 @@ void displayPropertyPage()
             return;
             break;
         case 1:
-            displaySpecificPropertyPage();
+            // deleteSpecificProperty();
             break;
         case 2:
             cout << "Please type the page number to display the property" << endl;

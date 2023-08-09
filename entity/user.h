@@ -54,7 +54,7 @@ public:
     {
         role = newRole;
     }
-    
+
     bool login(
         string inputUsername,
         string inputPassword

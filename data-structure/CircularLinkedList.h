@@ -51,6 +51,9 @@ public:
 
     T &get(int index);
 
+    template <typename Compare>
+    int customIndexOf(T element, Compare compare);
+
     void add(T element);
 
     void add(T element, int index);
@@ -77,7 +80,7 @@ public:
         cout << "--- DISPLAY LINKED LIST [FORWARD] = " << size << " elements ---" << endl;
         for (int i = 0; i < size; i++)
         {
-            cout << current->data << " ";
+            cout << current->data << endl;
             current = current->next;
         }
         cout << endl;
@@ -94,7 +97,7 @@ public:
         cout << "--- DISPLAY LINKED LIST [BACKWARD] = " << size << " elements ---" << endl;
         for (int i = 0; i < size; i++)
         {
-            std::cout << current->data << " ";
+            std::cout << current->data << endl;
             current = current->prev;
         }
         cout << endl;
@@ -144,6 +147,22 @@ T &CiruclarLinkedList<T>::get(int index)
         current = current->next;
     }
     return current->data;
+}
+
+template <typename T>
+template <typename Compare>
+int CiruclarLinkedList<T>::customIndexOf(T element, Compare compare)
+{
+    DoublyNode<T> *current = this->head;
+    for (int i = 0; i < size; i++)
+    {
+        if (compare(current->data, element))
+        {
+            return i;
+        }
+        current = current->next;
+    }
+    return -1;
 }
 
 template <typename T>
