@@ -1,16 +1,21 @@
 #include <iostream>
 #include "../dao/tenantDao.h"
+#include "../entity/admin.h"
 #include "../pages/admin/home.h"
 
 using namespace std;
 
 void adminLoginPage()
 {
+    Admin admin = Admin(
+        1,
+        "admin",
+        "secret",
+        3
+    );
     int attempt = 1;
     for (attempt; attempt <= 3; attempt++)
     {
-        string adminUsername = "admin";
-        string adminPassword = "pwd";
         string username, password;
         cout << "\n**Admin Login**\nAttempt " << attempt << "\nUsername: ";
         cin >> username;
@@ -19,8 +24,7 @@ void adminLoginPage()
         cin >> password;
 
         if (
-            adminUsername == username &&
-            adminPassword == password
+            admin.login(username, password)
         )
         {
             adminHome();
