@@ -2,6 +2,7 @@
 #include "../../dao/propertyDao.h"
 #include "specificProperty.h"
 #include "favouriteProperties.h"
+#include "rentingHistoryProperties.h"
 
 using namespace std;
 
@@ -27,13 +28,13 @@ void tenantHomePage()
             specificPropertyPage();
             break;
         case 2:
-            favouriteProperties();
+            favouritePropertiesPage();
             break;
         case 3:
             cout << "Place a rent request of favourite property." << endl;
             break;
         case 4:
-            cout << "View renting history." << endl;
+            rentingHistoryPropertiesPage();
             break;
         default:
             cout << "Invalid option. Please try again." << endl;

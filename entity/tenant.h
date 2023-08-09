@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "user.h"
 #include "property.h"
@@ -123,7 +124,7 @@ void Tenant::displayRentHistoryPropertyList(int propPerPage, int startPage)
     {
         throw invalid_argument("Starting page must be more than or equal one");
     }
-    if (favourtitePropertyList->getSize() == 0)
+    if (rentHistoryPropertyList->getSize() == 0)
     {
         cout << "Your Rent History of Property is empty" << endl;
         return;

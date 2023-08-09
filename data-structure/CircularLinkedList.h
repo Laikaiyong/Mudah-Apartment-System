@@ -52,7 +52,7 @@ public:
     T &get(int index);
 
     template <typename Compare>
-    int customIndexOf(T object, Compare compare);
+    int customIndexOf(T element, Compare compare);
 
     void add(T element);
 
@@ -151,7 +151,7 @@ T &CiruclarLinkedList<T>::get(int index)
 
 template <typename T>
 template <typename Compare>
-int CiruclarLinkedList<T>::customIndexOf(T object, Compare compare)
+int CiruclarLinkedList<T>::customIndexOf(T element, Compare compare)
 {
     DoublyNode<T> *current = this->head;
     for (int i = 0; i < size; i++)
