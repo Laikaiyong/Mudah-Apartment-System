@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void tenantHomePage()
+void tenantHome()
 {
     int input;
     while (true)
