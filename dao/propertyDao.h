@@ -41,7 +41,7 @@ public:
         propPerPage - number of property shown in one page
         startPage - starting page to display
         Example: propPerPage = 10, startPage = 3, display start from index (30 - 1) */
-    void displayAllPropsByPage(int propPerPage, int startPage);
+    void displayAllPropsByPage(int propPerPage, int &startPage);
 
     
     /*  display the filter list by pages
@@ -49,7 +49,7 @@ public:
         propPerPage - number of property shown in one page
         startPage - starting page to display
         Example: propPerPage = 5, startPage = 7, display start from index (35 - 1) */
-    void displayFilterPropsByPage(int propPerPage, int startPage);
+    void displayFilterPropsByPage(int propPerPage, int &startPage);
 
     void sortByDesc();
 
@@ -130,7 +130,7 @@ void PropertyDao::printTopN(int num)
     }
 }
 
-void PropertyDao::displayAllPropsByPage(int propPerPage, int startPage)
+void PropertyDao::displayAllPropsByPage(int propPerPage, int &startPage)
 {
     if (startPage < 1)
     {
@@ -141,7 +141,9 @@ void PropertyDao::displayAllPropsByPage(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        throw runtime_error("Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")");
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
     }
 
     int start = (startPage - 1) * propPerPage;
@@ -162,7 +164,7 @@ void PropertyDao::displayAllPropsByPage(int propPerPage, int startPage)
     }
 }
 
-void PropertyDao::displayFilterPropsByPage(int propPerPage, int startPage)
+void PropertyDao::displayFilterPropsByPage(int propPerPage, int &startPage)
 {
     if (startPage < 1)
     {
@@ -173,7 +175,9 @@ void PropertyDao::displayFilterPropsByPage(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        throw runtime_error("Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")");
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
     }
 
     int start = (startPage - 1) * propPerPage;
