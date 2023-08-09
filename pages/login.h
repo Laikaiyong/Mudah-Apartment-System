@@ -62,7 +62,7 @@ void tenantLoginPage()
         {
             cout << "Tenant login successful!" << endl;
             tenantHome();
-            break;
+            return;
         }
         else
         {
@@ -93,7 +93,7 @@ void managerLoginPage()
         {
             cout << "Manager login successful!" << endl;
             managerHome();
-            break;
+            return;
         }
         else
         {
