@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../../dao/propertyDao.h"
-#include "specificProperty.h"
+#include "properties.h"
 #include "favouriteProperties.h"
 #include "rentingHistoryProperties.h"
 
@@ -25,7 +25,7 @@ void tenantHomePage()
             return;
             break;
         case 1:
-            specificPropertyPage();
+            propertiesPage();
             break;
         case 2:
             favouritePropertiesPage();

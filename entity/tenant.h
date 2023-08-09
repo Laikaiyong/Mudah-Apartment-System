@@ -42,7 +42,7 @@ public:
         active = newActive;
     }
 
-    void displayFavouritePropertyList(int propPerPage, int startPage);
+    void displayFavouritePropertyList(int propPerPage, int &startPage);
 
     CiruclarLinkedList<Property> *getFavouritePropertyList();
 
@@ -50,12 +50,12 @@ public:
 
     bool removeFavouritePropertyById(string id);
 
-    void displayRentHistoryPropertyList(int propPerPage, int startPage);
+    void displayRentHistoryPropertyList(int propPerPage, int &startPage);
 
     void addRentHistoryPropertyList(Property property);
 };
 
-void Tenant::displayFavouritePropertyList(int propPerPage, int startPage)
+void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
 {
     if (startPage < 1)
     {
@@ -71,7 +71,7 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
         cout << "Displaying the last page" << endl;
         startPage = totalPage;
     }
@@ -118,7 +118,7 @@ bool Tenant::removeFavouritePropertyById(string id)
     return true;
 }
 
-void Tenant::displayRentHistoryPropertyList(int propPerPage, int startPage)
+void Tenant::displayRentHistoryPropertyList(int propPerPage, int &startPage)
 {
     if (startPage < 1)
     {
@@ -134,7 +134,7 @@ void Tenant::displayRentHistoryPropertyList(int propPerPage, int startPage)
 
     if (startPage > totalPage)
     {
-        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) << endl;
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
         cout << "Displaying the last page" << endl;
         startPage = totalPage;
     }
