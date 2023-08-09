@@ -36,7 +36,7 @@ void addFavouriteProperty(Property &property)
     cout << "Successfully added the selected property into your favourite property list.";
 }
 
-void displaySpecificPropertyPage()
+void specificPropertyPage()
 {
     optional<Property> optionalProperty;
     selectProperty(optionalProperty);

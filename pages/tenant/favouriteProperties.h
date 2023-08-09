@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void displayPropertyPage()
+void favouriteProperties()
 {
     Tenant tenant;
     int selectedPage = 1;

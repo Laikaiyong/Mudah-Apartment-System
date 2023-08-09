@@ -1,10 +1,10 @@
 #include <iostream>
 #include "../../dao/propertyDao.h"
-#include "displaySpecificProperty.h"
+#include "specificProperty.h"
 
 using namespace std;
 
-void displayPropertyPage()
+void propertiesPage()
 {
     int selectedPage = 1;
     PropertyDao *propertyDao = PropertyDao::getInstance();
@@ -26,7 +26,7 @@ void displayPropertyPage()
             return;
             break;
         case 1:
-            displaySpecificPropertyPage();
+            specificPropertyPage();
             break;
         case 2:
             cout << "Please type the page number to display the property" << endl;

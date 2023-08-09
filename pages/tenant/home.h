@@ -1,10 +1,11 @@
 #include <iostream>
 #include "../../dao/propertyDao.h"
-#include "displaySpecificProperty.h"
+#include "specificProperty.h"
+#include "favouriteProperties.h"
 
 using namespace std;
 
-void displayPropertyPage()
+void tenantHomePage()
 {
     int input;
     while (true)
@@ -23,10 +24,10 @@ void displayPropertyPage()
             return;
             break;
         case 1:
-            displaySpecificPropertyPage();
+            specificPropertyPage();
             break;
         case 2:
-            cout << "View favourite property." << endl;
+            favouriteProperties();
             break;
         case 3:
             cout << "Place a rent request of favourite property." << endl;
