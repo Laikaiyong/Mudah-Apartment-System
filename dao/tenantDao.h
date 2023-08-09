@@ -21,6 +21,7 @@ public:
     static TenantDao *getInstance();
 
     bool checkTenantUsernameTaken(string &username);
+    Tenant getTenantByUsername(string &username);
 
     void createTenant(string &username, string &password);
 
@@ -51,6 +52,23 @@ bool TenantDao::checkTenantUsernameTaken(string &username)
     tenant.setUsername(username);
     return list->customFind(tenant, [](Tenant &t1, Tenant &t2)
                             { return t1.getUsername() == t2.getUsername(); });
+}
+
+Tenant TenantDao::getTenantByUsername(string &username)
+{
+    Tenant dummyTenant;
+    dummyTenant.setUsername(username);
+
+    for (int i = 0; i < list->getSize(); i++) 
+    {
+        Tenant tenant = list->get(i);
+        if (tenant.getUsername() == dummyTenant.getUsername())
+        {
+            return tenant;
+        }
+    }
+
+    throw runtime_error("Tenant not found");
 }
 
 void TenantDao::createTenant(string &username, string &password)
