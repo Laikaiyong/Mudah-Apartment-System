@@ -20,16 +20,27 @@ public:
 
     ~Tenant()
     {
-        if (favourtitePropertyList != nullptr)
-        {
-            delete favourtitePropertyList;
-            favourtitePropertyList = nullptr;
-        }
-        if (favourtitePropertyList != nullptr)
-        {
-            delete rentHistoryPropertyList;
-            rentHistoryPropertyList = nullptr;
-        }
+        // if (favourtitePropertyList != nullptr)
+        // {
+        //     delete favourtitePropertyList;
+        //     favourtitePropertyList = nullptr;
+        // }
+        // if (favourtitePropertyList != nullptr)
+        // {
+        //     delete rentHistoryPropertyList;
+        //     rentHistoryPropertyList = nullptr;
+        // }
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, Tenant &tenant)
+    {
+        // Code to output the object's data to the ostream
+        os << "Tenant Details:" << endl;
+        os << "User ID: " << tenant.getUserId() << endl;
+        os << "Username: " << tenant.getUsername() << endl;
+        os << "Role: " << tenant.getRole() << endl;
+        os << "Active: " << tenant.active << endl;
+        return os;
     }
 
     bool isActive()

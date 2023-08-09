@@ -80,7 +80,7 @@ public:
         cout << "--- DISPLAY LINKED LIST [FORWARD] = " << size << " elements ---" << endl;
         for (int i = 0; i < size; i++)
         {
-            cout << current->data << " ";
+            cout << current->data << endl;
             current = current->next;
         }
         cout << endl;
@@ -97,7 +97,7 @@ public:
         cout << "--- DISPLAY LINKED LIST [BACKWARD] = " << size << " elements ---" << endl;
         for (int i = 0; i < size; i++)
         {
-            std::cout << current->data << " ";
+            std::cout << current->data << endl;
             current = current->prev;
         }
         cout << endl;
