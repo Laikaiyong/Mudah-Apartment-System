@@ -1,27 +1,34 @@
 #include <iostream>
+#include "../entity/admin.h"
 #include "../dao/tenantDao.h"
+#include "../dao/managerDao.h"
 #include "../pages/admin/home.h"
 #include "../pages/tenant/home.h"
+#include "../pages/manager/home.h"
+
 
 using namespace std;
 
 void adminLoginPage()
 {
+    Admin admin = Admin(
+        1,
+        "admin",
+        "secret",
+        3
+    );
     int attempt = 1;
     for (attempt; attempt <= 3; attempt++)
     {
-        string adminUsername = "admin";
-        string adminPassword = "pwd";
         string username, password;
-        cout << "\n**Admin Login**\nAttempt " << attempt << "\nUsername: ";
+        cout << "\nAdmin Login\nAttempt " << attempt << "\nUsername: ";
         cin >> username;
-        
+
         cout << "Password: ";
         cin >> password;
 
         if (
-            adminUsername == username &&
-            adminPassword == password
+            admin.login(username, password)
         )
         {
             adminHome();
@@ -41,23 +48,20 @@ void tenantLoginPage()
     int attempt = 1;
     for (attempt; attempt <= 3; attempt++)
     {
-        string tenantUsername = "tenant"; // Hardcoded username
-        string tenantPassword = "tenant_pwd"; // Hardcoded password
         string username, password;
         cout << "\n**Tenant Login**\nAttempt " << attempt << "\nUsername: ";
         cin >> username;
-        
+
         cout << "Password: ";
         cin >> password;
 
-        if (
-            tenantUsername == username &&
-            tenantPassword == password
-        )
+        Tenant tenant = tenantDao->getTenantByUsername(username);
+
+        if (tenant.login(username, password) && tenant.isActive())
         {
-            Tenant tenant = tenantDao->getTenantByUsername(username);
+            cout << "Tenant login successful!" << endl;
             tenantHome();
-            return;
+            break;
         }
         else
         {
@@ -70,5 +74,31 @@ void tenantLoginPage()
 
 void managerLoginPage()
 {
-    
+    ManagerDao *managerDao = ManagerDao::getInstance();
+
+    int attempt = 1;
+    for (attempt; attempt <= 3; attempt++)
+    {
+        string username, password;
+        cout << "\n**Manager Login**\nAttempt " << attempt << "\nUsername: ";
+        cin >> username;
+
+        cout << "Password: ";
+        cin >> password;
+
+        Manager manager = managerDao->getManagerByUsername(username);
+
+        if (manager.login(username, password))
+        {
+            cout << "Manager login successful!" << endl;
+            managerHome();
+            break;
+        }
+        else
+        {
+            cout << "Invalid credentials, try again.\n" << endl;
+        }
+    }
+
+    cout << "Maximum login attempts reached.\n" << endl;
 }
