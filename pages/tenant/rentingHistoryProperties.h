@@ -1,16 +1,18 @@
 #include <iostream>
 #include "../../entity/Tenant.h"
+#include "../../dao/tenantDao.h"
 
 using namespace std;
 
 void rentingHistoryPropertiesPage()
 {
-    Tenant tenant;
+    TenantDao *tenantDao = TenantDao::getInstance();
+    Tenant *tenant = tenantDao->getCurrentTenant();
     int selectedPage = 1;
     int input;
     while (true)
     {
-        tenant.displayRentHistoryPropertyList(10, selectedPage);
+        tenant->displayRentHistoryPropertyList(10, selectedPage);
         cout << "Current Page: " + to_string(selectedPage) << endl;
         cout << "Please press your selected option:" << endl;
         cout << "Option 1: Change page." << endl;

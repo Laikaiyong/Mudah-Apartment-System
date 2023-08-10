@@ -57,13 +57,13 @@ public:
 
     CiruclarLinkedList<Property> *getFavouritePropertyList();
 
-    void addFavourtiteProperty(Property property);
+    void addFavourtiteProperty(Property &property);
 
     bool removeFavouritePropertyById(string id);
 
     void displayRentHistoryPropertyList(int propPerPage, int &startPage);
 
-    void addRentHistoryPropertyList(Property property);
+    void addRentHistoryPropertyList(Property &property);
 };
 
 void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
@@ -110,7 +110,7 @@ CiruclarLinkedList<Property> *Tenant::getFavouritePropertyList()
     return this->favourtitePropertyList;
 }
 
-void Tenant::addFavourtiteProperty(Property property)
+void Tenant::addFavourtiteProperty(Property &property)
 {
     this->favourtitePropertyList->add(property);
 }
@@ -168,7 +168,7 @@ void Tenant::displayRentHistoryPropertyList(int propPerPage, int &startPage)
     }
 }
 
-void Tenant::addRentHistoryPropertyList(Property property)
+void Tenant::addRentHistoryPropertyList(Property &property)
 {
     this->rentHistoryPropertyList->add(property);
 }
