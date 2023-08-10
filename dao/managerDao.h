@@ -21,9 +21,9 @@ class ManagerDao
 public:
     static ManagerDao *getInstance();
 
-    static Manager *getCurrentManager();
+    Manager *getCurrentManager();
 
-    static void setCurrentManager(int id);
+    void setCurrentManager(int id);
 
     Manager getManagerByUsername(string &username);
 
@@ -49,12 +49,16 @@ Manager *ManagerDao::getCurrentManager()
 
 void ManagerDao::setCurrentManager(int id)
 {
-    ManagerDao *managerDao = ManagerDao::getInstance();
-    optional<Manager> optionalTenant = managerDao->getManagerById(id);
-    if (optionalTenant.has_value())
+    Manager manager;
+    manager.setUserId(id);
+    int index = this->list->customIndexOf(manager, [](Manager &m1, Manager &m2)
+                                          { return m1.getUserId() == m2.getUserId(); });
+    if (index == -1)
     {
-        currentManager = &(optionalTenant.value());
+        cout << "Warning, manager id " << id << "does not exist" << endl;
+        return;
     }
+    currentManager = &(this->list->get(index));
 }
 
 Manager ManagerDao::getManagerByUsername(string &username)

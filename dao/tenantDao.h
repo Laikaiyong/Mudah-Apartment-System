@@ -21,9 +21,9 @@ class TenantDao
 public:
     static TenantDao *getInstance();
 
-    static Tenant *getCurrentTenant();
+    Tenant *getCurrentTenant();
 
-    static void setCurrentTenent(int id);
+    void setCurrentTenent(int id);
 
     bool checkTenantUsernameTaken(string &username);
 
@@ -61,12 +61,16 @@ Tenant *TenantDao::getCurrentTenant()
 
 void TenantDao::setCurrentTenent(int id)
 {
-    TenantDao *tenantDao = TenantDao::getInstance();
-    optional<Tenant> optionalTenant = tenantDao->getTenantById(id);
-    if (optionalTenant.has_value())
+    Tenant tenant;
+    tenant.setUserId(id);
+    int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
+                                          { return t1.getUserId() == t2.getUserId(); });
+    if (index == -1)
     {
-        currentTenant = &(optionalTenant.value());
+        cout << "Warning, tenant id " << id << "does not exist" << endl;
+        return;
     }
+    currentTenant = &(this->list->get(index));
 }
 
 bool TenantDao::checkTenantUsernameTaken(string &username)
