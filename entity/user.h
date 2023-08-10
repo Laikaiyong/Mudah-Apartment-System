@@ -5,6 +5,8 @@ using namespace std;
 
 class User
 {
+    static int idCounter;
+
     int userId;
     string username;
     string password;
@@ -14,6 +16,11 @@ public:
     User() {};
 
     User(int userId, string username, string password, int role) : userId(userId), username(username), password(password), role(role){};
+
+    static int getAndIncrementId()
+    {
+        return idCounter++;
+    }
 
     int getUserId() 
     {
@@ -63,3 +70,4 @@ public:
         return this->getUsername() == inputUsername && this->getPassword() == inputPassword;
     }
 };
+int User::idCounter = 1;

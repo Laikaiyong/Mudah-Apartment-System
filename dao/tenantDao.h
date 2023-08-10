@@ -9,7 +9,7 @@ using namespace std;
 class TenantDao
 {
     static TenantDao *instancePtr;
-    static int idCounter;
+    static Tenant *currentTenant;
 
     CiruclarLinkedList<Tenant> *list;
 
@@ -21,7 +21,12 @@ class TenantDao
 public:
     static TenantDao *getInstance();
 
+    static Tenant *getCurrentTenant();
+
+    static void setCurrentTenent(int id);
+
     bool checkTenantUsernameTaken(string &username);
+
     Tenant getTenantByUsername(string &username);
 
     void createTenant(string &username, string &password);
@@ -38,7 +43,7 @@ public:
 };
 
 TenantDao *TenantDao::instancePtr = nullptr;
-int TenantDao::idCounter = 1;
+Tenant *TenantDao::currentTenant = nullptr;
 
 TenantDao *TenantDao::getInstance()
 {
@@ -47,6 +52,21 @@ TenantDao *TenantDao::getInstance()
         instancePtr = new TenantDao();
     }
     return instancePtr;
+}
+
+Tenant *TenantDao::getCurrentTenant()
+{
+    return currentTenant;
+}
+
+void TenantDao::setCurrentTenent(int id)
+{
+    TenantDao *tenantDao = TenantDao::getInstance();
+    optional<Tenant> optionalTenant = tenantDao->getTenantById(id);
+    if (optionalTenant.has_value())
+    {
+        currentTenant = &(optionalTenant.value());
+    }
 }
 
 bool TenantDao::checkTenantUsernameTaken(string &username)
@@ -77,7 +97,7 @@ Tenant TenantDao::getTenantByUsername(string &username)
 void TenantDao::createTenant(string &username, string &password)
 {
     Tenant tenant;
-    tenant.setUserId(idCounter++);
+    tenant.setUserId(User::getAndIncrementId());
     tenant.setUsername(username);
     tenant.setPassword(password);
     tenant.setUsername(username);
