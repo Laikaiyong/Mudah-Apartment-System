@@ -61,8 +61,9 @@ void tenantLoginPage()
         if (tenant.login(username, password) && tenant.isActive())
         {
             cout << "Tenant login successful!" << endl;
+            tenantDao->setCurrentTenent(tenant.getUserId());
             tenantHome();
-            break;
+            return;
         }
         else
         {
@@ -92,8 +93,9 @@ void managerLoginPage()
         if (manager.login(username, password))
         {
             cout << "Manager login successful!" << endl;
+            managerDao->setCurrentManager(manager.getUserId());
             managerHome();
-            break;
+            return;
         }
         else
         {

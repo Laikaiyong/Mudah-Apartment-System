@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <optional>
 #include "../data-structure/CircularLinkedList.h"
 #include "../entity/manager.h"
 
@@ -8,6 +9,7 @@ using namespace std;
 class ManagerDao
 {
     static ManagerDao *instancePtr;
+    static Manager *currentManager;
 
     CiruclarLinkedList<Manager> *list;
 
@@ -19,11 +21,17 @@ class ManagerDao
 public:
     static ManagerDao *getInstance();
 
+    Manager *getCurrentManager();
+
+    void setCurrentManager(int id);
+
     Manager getManagerByUsername(string &username);
 
+    optional<Manager> getManagerById(int id);
 };
 
 ManagerDao *ManagerDao::instancePtr = nullptr;
+Manager *ManagerDao::currentManager = nullptr;
 
 ManagerDao *ManagerDao::getInstance()
 {
@@ -32,6 +40,25 @@ ManagerDao *ManagerDao::getInstance()
         instancePtr = new ManagerDao();
     }
     return instancePtr;
+}
+
+Manager *ManagerDao::getCurrentManager()
+{
+    return currentManager;
+}
+
+void ManagerDao::setCurrentManager(int id)
+{
+    Manager manager;
+    manager.setUserId(id);
+    int index = this->list->customIndexOf(manager, [](Manager &m1, Manager &m2)
+                                          { return m1.getUserId() == m2.getUserId(); });
+    if (index == -1)
+    {
+        cout << "Warning, manager id " << id << "does not exist" << endl;
+        return;
+    }
+    currentManager = &(this->list->get(index));
 }
 
 Manager ManagerDao::getManagerByUsername(string &username)
@@ -49,4 +76,17 @@ Manager ManagerDao::getManagerByUsername(string &username)
     }
 
     throw runtime_error("Manager not found");
+}
+
+optional<Manager> ManagerDao::getManagerById(int id)
+{
+    Manager manager;
+    manager.setUserId(id);
+    int index = this->list->customIndexOf(manager, [](Manager &m1, Manager &m2)
+                                          { return m1.getUserId() == m2.getUserId(); });
+    if (index == -1)
+    {
+        return nullopt;
+    }
+    return this->list->get(index);
 }
