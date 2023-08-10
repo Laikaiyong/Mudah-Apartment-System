@@ -32,7 +32,7 @@ void adminLoginPage()
             admin.login(username, password)
         )
         {
-            adminHome();
+            adminHome(username);
             break;
         }
         else
