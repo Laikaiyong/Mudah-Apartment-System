@@ -1,19 +1,16 @@
 #pragma once
 #include <iostream>
-#include <optional>
 #include <cmath>
 #include "../data-structure/ArrayList.h"
 #include "../entity/property.h"
 #include "../file/readFile.h"
 #include "../sorting/mergeSort.h"
-#include "../searching/binarySearch.h"
 
 using namespace std;
 
 class PropertyDao
 {
     static PropertyDao *instancePtr;
-    static int currentSort;
 
     ArrayList<Property> *list;
     ArrayList<Property> *filterList;
@@ -39,16 +36,13 @@ public:
 
     void sortByDesc();
 
-    void sortIdByAsc();
-
     template <typename Filter>
     void filter(Filter compare);
 
-    optional<Property> getById(const Property &property);
+    // Property &getById();
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
-int PropertyDao::currentSort = 1;
 
 PropertyDao *PropertyDao::getInstance()
 {
@@ -155,10 +149,6 @@ void PropertyDao::displayFilterPropsByPage(int propPerPage, int startPage)
 
 void PropertyDao::sortByDesc()
 {
-    if (PropertyDao::currentSort == 0) 
-    {
-        return;
-    }
     mergeSort(list->getArray(), list->getSize(), [](Property &p1, Property &p2)
               {
                   if (p1.getMonthlyRent() != p2.getMonthlyRent()) {
@@ -167,17 +157,8 @@ void PropertyDao::sortByDesc()
                   else if (p1.getLocation() != p2.getLocation()) {
                     return p1.getLocation() > p2.getLocation();
                   }
-                  return p1.getSize() >= p2.getSize(); });
-    PropertyDao::currentSort = 0;
+                  return p1.getSize() >= p1.getSize(); });
     cout << "Finish sort by descending order" << endl;
-}
-
-void PropertyDao::sortIdByAsc()
-{
-    mergeSort(list->getArray(), list->getSize(), [](Property &p1, Property &p2)
-              { return p1.getAdsId() < p2.getAdsId(); });
-    PropertyDao::currentSort = 1;
-    cout << "Finish sort ID by ascending order" << endl;
 }
 
 template <typename Filter>
@@ -212,14 +193,6 @@ void PropertyDao::filter(Filter compare)
     cout << "Successfully filter property" << endl;
 }
 
-optional<Property> PropertyDao::getById(const Property &property)
-{
-    sortIdByAsc();
-    int index = binarySearch(this->list->getArray(), this->list->getSize(), property, [](Property &p1, Property &p2)
-                             { return p1.getAdsId() < p2.getAdsId(); });
-    if (index == -1)
-    {
-        return nullopt;
-    }
-    return this->list->get(index);
-}
+// Property &PropertyDao::getById() {
+
+// }
