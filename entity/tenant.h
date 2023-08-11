@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <optional>
 #include "user.h"
 #include "property.h"
 #include "../data-structure/ArrayList.h"
@@ -67,6 +68,8 @@ public:
 
     void addFavourtiteProperty(Property &property);
 
+    optional<Property> getFavourtitePropertyById(string id);
+
     bool removeFavouritePropertyById(string id);
 
     void displayRentHistoryPropertyList(int propPerPage, int &startPage);
@@ -111,6 +114,19 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
 void Tenant::addFavourtiteProperty(Property &property)
 {
     this->favourtitePropertyList->add(property);
+}
+
+optional<Property> Tenant::getFavourtitePropertyById(string id)
+{
+    Property property;
+    property.setAdsId(id);
+    int index = this->favourtitePropertyList->customIndexOf(property, [](Property &p1, Property &p2)
+                                          { return p1.getAdsId() == p2.getAdsId(); });
+    if (index == -1)
+    {
+        return nullopt;
+    }
+    return this->favourtitePropertyList->get(index);
 }
 
 bool Tenant::removeFavouritePropertyById(string id)

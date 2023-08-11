@@ -3,6 +3,7 @@
 #include "properties.h"
 #include "favouriteProperties.h"
 #include "rentingHistoryProperties.h"
+#include "rentRequest.h"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ void tenantHome()
             favouritePropertiesPage();
             break;
         case 3:
-            cout << "Place a rent request of favourite property." << endl;
+            rentRequestPage();
             break;
         case 4:
             rentingHistoryPropertiesPage();
