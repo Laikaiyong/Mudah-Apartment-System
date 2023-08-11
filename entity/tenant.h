@@ -14,23 +14,11 @@ class Tenant : public User
     bool active;
 
 public:
-    Tenant() : favourtitePropertyList(new CiruclarLinkedList<Property>()), rentHistoryPropertyList(new ArrayList<Property>()){};
+    Tenant() : favourtitePropertyList(nullptr), rentHistoryPropertyList(nullptr){};
 
-    Tenant(int userId, string username, string password, int role, bool active) : User(userId, username, password, role), active(active), favourtitePropertyList(new CiruclarLinkedList<Property>()), rentHistoryPropertyList(new ArrayList<Property>()){};
+    Tenant(int userId, string username, string password, int role, bool active) : User(userId, username, password, role), active(active), favourtitePropertyList(nullptr), rentHistoryPropertyList(nullptr){};
 
-    ~Tenant()
-    {
-        // if (favourtitePropertyList != nullptr)
-        // {
-        //     delete favourtitePropertyList;
-        //     favourtitePropertyList = nullptr;
-        // }
-        // if (favourtitePropertyList != nullptr)
-        // {
-        //     delete rentHistoryPropertyList;
-        //     rentHistoryPropertyList = nullptr;
-        // }
-    }
+    ~Tenant() {}
 
     friend std::ostream &operator<<(std::ostream &os, Tenant &tenant)
     {
@@ -58,9 +46,21 @@ public:
         return this->favourtitePropertyList;
     }
 
+    void initFavouritePropertyList()
+    {
+        if (this->favourtitePropertyList == nullptr)
+            this->favourtitePropertyList = new CiruclarLinkedList<Property>();
+    }
+
     ArrayList<Property> *getRentHistoryPropertyList()
     {
         return this->rentHistoryPropertyList;
+    }
+
+    void initRentHistoryPropertyList()
+    {
+        if (this->rentHistoryPropertyList == nullptr)
+            this->rentHistoryPropertyList = new ArrayList<Property>();
     }
 
     void displayFavouritePropertyList(int propPerPage, int &startPage);
@@ -118,7 +118,7 @@ bool Tenant::removeFavouritePropertyById(string id)
     Property property;
     property.setAdsId(id);
     int index = this->favourtitePropertyList->customIndexOf(property, [](Property &p1, Property &p2)
-                                                         { return p1.getAdsId() == p2.getAdsId(); });
+                                                            { return p1.getAdsId() == p2.getAdsId(); });
     if (index == -1)
     {
         return false;
@@ -138,7 +138,7 @@ void Tenant::displayRentHistoryPropertyList(int propPerPage, int &startPage)
 
     if (startPage > totalPage)
     {
-        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
         cout << "Displaying the last page" << endl;
         startPage = totalPage;
     }
