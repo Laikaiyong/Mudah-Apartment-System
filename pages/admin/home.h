@@ -16,7 +16,7 @@ void adminHome(string name)
         cout << "2. Update manager status." << endl;
         cout << "3. Display all registered tenants." << endl;
         cout << "4. Display property information." << endl;
-        cout << "5. Sign out." << endl;
+        cout << "0. Sign out." << endl;
         cin >> input;
 
         switch (input)
