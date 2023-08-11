@@ -107,6 +107,8 @@ void TenantDao::createTenant(string &username, string &password)
     tenant.setUsername(username);
     tenant.setRole(1);
     tenant.setActive(true);
+    tenant.initFavouritePropertyList();
+    tenant.initRentHistoryPropertyList();
     list->add(tenant);
 }
 

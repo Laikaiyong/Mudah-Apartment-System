@@ -37,15 +37,14 @@ public:
     void printTopN(int num);
 
     /*  display the list by pages
-        parameter: 
+        parameter:
         propPerPage - number of property shown in one page
         startPage - starting page to display
         Example: propPerPage = 10, startPage = 3, display start from index (30 - 1) */
     void displayAllPropsByPage(int propPerPage, int &startPage);
 
-    
     /*  display the filter list by pages
-        parameter: 
+        parameter:
         propPerPage - number of property shown in one page
         startPage - starting page to display
         Example: propPerPage = 5, startPage = 7, display start from index (35 - 1) */
@@ -141,7 +140,7 @@ void PropertyDao::displayAllPropsByPage(int propPerPage, int &startPage)
 
     if (startPage > totalPage)
     {
-        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
         cout << "Displaying the last page" << endl;
         startPage = totalPage;
     }
@@ -175,7 +174,7 @@ void PropertyDao::displayFilterPropsByPage(int propPerPage, int &startPage)
 
     if (startPage > totalPage)
     {
-        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")"  << endl;
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
         cout << "Displaying the last page" << endl;
         startPage = totalPage;
     }
@@ -200,7 +199,7 @@ void PropertyDao::displayFilterPropsByPage(int propPerPage, int &startPage)
 
 void PropertyDao::sortByDesc()
 {
-    if (PropertyDao::currentSort == 0) 
+    if (PropertyDao::currentSort == 0)
     {
         return;
     }
@@ -219,6 +218,10 @@ void PropertyDao::sortByDesc()
 
 void PropertyDao::sortIdByAsc()
 {
+    if (PropertyDao::currentSort == 1)
+    {
+        return;
+    }
     mergeSort(list->getArray(), list->getSize(), [](Property &p1, Property &p2)
               { return p1.getAdsId() < p2.getAdsId(); });
     PropertyDao::currentSort = 1;
@@ -227,7 +230,11 @@ void PropertyDao::sortIdByAsc()
 
 void PropertyDao::sortMonthlyRentByAsc()
 {
-    quickSort(list->getArray(), 0, list->getSize() - 1,  [](Property &p1, Property &p2)
+    if (PropertyDao::currentSort == 2)
+    {
+        return;
+    }
+    quickSort(list->getArray(), 0, list->getSize() - 1, [](Property &p1, Property &p2)
               { return p1.getMonthlyRent() < p2.getMonthlyRent(); });
     PropertyDao::currentSort = 2;
     cout << "Finish sort Monthly Rent by ascending order" << endl;
