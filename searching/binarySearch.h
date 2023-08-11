@@ -1,3 +1,5 @@
+#ifndef BINARYSEARCH_H
+#define BINARYSEARCH_H
 #include <iostream>
 using namespace std;
 
@@ -27,3 +29,5 @@ int binarySearch(T *array, int size, T value, Compare compare)
 
     return -1; // Value not found
 }
+
+#endif
