@@ -11,6 +11,7 @@ void selectProperty(optional<Property> &optionalProperty)
 {
     PropertyDao *propertyDao = PropertyDao::getInstance();
     string id;
+    string anyKey;
     while (true)
     {
         cout << "To go back, press \"e\" and enter." << endl;
@@ -28,7 +29,7 @@ void selectProperty(optional<Property> &optionalProperty)
         }
         cout << "Property ID : \"" + id + "\" is not found, please try again." << endl;
         cout << "Press any key to continue.\n";
-        cin;
+        cin >> anyKey;
     }
     cout << endl;
     cout << optionalProperty.value() << endl;
@@ -36,17 +37,19 @@ void selectProperty(optional<Property> &optionalProperty)
 
 void addFavouriteProperty(Property &property)
 {
+    string anyKey;
     TenantDao *tenantDao = TenantDao::getInstance();
     Tenant *tenant = tenantDao->getCurrentTenant();
     tenant->addFavourtiteProperty(property);
     cout << "Successfully added the selected property into your favourite property list.\n";
     cout << "Press any key to continue.\n";
-    cin;
+    cin >> anyKey;
 }
 
 void deleteSpecificFavouriteProperty(Tenant &tenant)
 {
     string id;
+    string anyKey;
     while (true)
     {
         cout << "To go back, press \"e\" and enter." << endl;
@@ -60,7 +63,7 @@ void deleteSpecificFavouriteProperty(Tenant &tenant)
         {
             cout << "Successfully remove property id: " + id + " from your favourite property list" << endl;
             cout << "Press any key to continue.\n";
-            cin;
+            cin >> anyKey;
             return;
         }
         cout << "Property ID : \"" + id + "\" is not found from your favourite property list, please try again." << endl;

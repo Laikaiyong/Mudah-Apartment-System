@@ -13,6 +13,11 @@ void favouritePropertiesPage()
     int input;
     while (true)
     {
+        if (tenant->getFavouritePropertyList()->getSize() == 0)
+        {
+            cout << "Your Favourite Property is empty" << endl;
+            return;
+        }
         tenant->displayFavouritePropertyList(10, selectedPage);
         cout << "Current Page: " + to_string(selectedPage) << endl;
         cout << "Please press your selected option:" << endl;

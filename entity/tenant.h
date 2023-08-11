@@ -53,9 +53,17 @@ public:
         active = newActive;
     }
 
-    void displayFavouritePropertyList(int propPerPage, int &startPage);
+    CiruclarLinkedList<Property> *getFavouritePropertyList()
+    {
+        return this->favourtitePropertyList;
+    }
 
-    CiruclarLinkedList<Property> *getFavouritePropertyList();
+    ArrayList<Property> *getRentHistoryPropertyList()
+    {
+        return this->rentHistoryPropertyList;
+    }
+
+    void displayFavouritePropertyList(int propPerPage, int &startPage);
 
     void addFavourtiteProperty(Property &property);
 
@@ -71,11 +79,6 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
     if (startPage < 1)
     {
         throw invalid_argument("Starting page must be more than or equal one");
-    }
-    if (favourtitePropertyList->getSize() == 0)
-    {
-        cout << "Your Favourite Property is empty" << endl;
-        return;
     }
     int restProp = favourtitePropertyList->getSize() % propPerPage;
     int totalPage = restProp > 0 ? (favourtitePropertyList->getSize() / propPerPage) + 1 : favourtitePropertyList->getSize() / propPerPage;
@@ -105,11 +108,6 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
     }
 }
 
-CiruclarLinkedList<Property> *Tenant::getFavouritePropertyList()
-{
-    return this->favourtitePropertyList;
-}
-
 void Tenant::addFavourtiteProperty(Property &property)
 {
     this->favourtitePropertyList->add(property);
@@ -134,11 +132,6 @@ void Tenant::displayRentHistoryPropertyList(int propPerPage, int &startPage)
     if (startPage < 1)
     {
         throw invalid_argument("Starting page must be more than or equal one");
-    }
-    if (rentHistoryPropertyList->getSize() == 0)
-    {
-        cout << "Your Rent History of Property is empty" << endl;
-        return;
     }
     int restProp = rentHistoryPropertyList->getSize() % propPerPage;
     int totalPage = restProp > 0 ? (rentHistoryPropertyList->getSize() / propPerPage) + 1 : rentHistoryPropertyList->getSize() / propPerPage;

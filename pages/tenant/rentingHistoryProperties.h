@@ -12,6 +12,11 @@ void rentingHistoryPropertiesPage()
     int input;
     while (true)
     {
+        if (tenant->getRentHistoryPropertyList()->getSize() == 0)
+        {
+            cout << "Your Rent History of Property is empty" << endl;
+            return;
+        }
         tenant->displayRentHistoryPropertyList(10, selectedPage);
         cout << "Current Page: " + to_string(selectedPage) << endl;
         cout << "Please press your selected option:" << endl;
