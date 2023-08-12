@@ -16,33 +16,38 @@ void adminHome(string name)
         cout << "2. Update manager status." << endl;
         cout << "3. Display all registered tenants." << endl;
         cout << "4. Display property information." << endl;
+        cout << "5. Display manager." << endl;
         cout << "0. Sign out." << endl;
+        cout << "Action: ";
         cin >> input;
 
-        switch (input)
+        if (input == 0)
         {
-            case 0:
-                return;
-                break;
-            case 1:
-                addManager();
-                return;
-                break;
-            case 2:
-                modifyManagerStatus();
-                return;
-                break;
-            case 3:
-                displayTenant();
-                return;
-                break;
-            case 4:
-                displayProperty();
-                return;
-                break;
-            default:
-                cout << "Invalid option. Please try again." << endl;
-                break;
+            return;
+        }
+        else if (input == 1)
+        {
+            addManager();
+        }
+        else if (input == 2)
+        {
+            modifyManagerStatus();
+        }
+        else if (input == 3)
+        {
+            displayTenant();
+        }
+        else if (input == 4)
+        {
+            displayProperty();
+        }
+        else if (input == 5)
+        {
+            displayManager();
+        }
+        else
+        {
+            cout << "Invalid option. Please try again." << endl;
         }
     }
 }
