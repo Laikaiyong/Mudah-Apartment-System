@@ -3,6 +3,7 @@
 #include <optional>
 #include "../data-structure/CircularLinkedList.h"
 #include "../entity/tenant.h"
+#include "../sorting/mergeSort.h"
 
 using namespace std;
 
@@ -34,6 +35,10 @@ public:
     optional<Tenant> getTenantById(int id);
 
     bool deleteTenantById(int id);
+
+    void displayAllTentsByPage(int tentPerPage, int &startPage);
+
+    void sortIdByAsc();
 
     // temporary function
     void printall()
@@ -131,10 +136,57 @@ bool TenantDao::deleteTenantById(int id)
     tenant.setUserId(id);
     int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
                                           { return t1.getUserId() == t2.getUserId(); });
+    
     if (index == -1)
+    {
+        return false;
+    }
+    if (this->list->get(index).isActive())
     {
         return false;
     }
     this->list->remove(index);
     return true;
 }
+
+void TenantDao::displayAllTentsByPage(int tentPerPage, int &startPage)
+{
+    if (startPage < 1)
+    {
+        throw invalid_argument("Starting page must be more than or equal one");
+    }
+    int restTent = list->getSize() % tentPerPage;
+    int totalPage = restTent > 0 ? (list->getSize() / tentPerPage) + 1 : list->getSize() / tentPerPage;
+
+    if (startPage > totalPage)
+    {
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
+    }
+
+    int start = (startPage - 1) * tentPerPage;
+    int end;
+
+    if (startPage == totalPage)
+    {
+        end = start + restTent;
+    }
+    else
+    {
+        end = start + tentPerPage;
+    }
+    cout << endl;
+    for (int i = start; i < end; i++)
+    {
+        cout << list->get(i) << endl;
+    }
+}
+
+void TenantDao::sortIdByAsc()
+{
+    mergeSort(list->cloneArray(), list->getSize(), [](Tenant &t1, Tenant &t2)
+              { return t1.getUserId() < t2.getUserId(); });
+    cout << "Finish sort Tenant ID by ascending order" << endl;
+}
+

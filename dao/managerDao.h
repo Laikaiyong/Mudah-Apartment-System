@@ -28,6 +28,14 @@ public:
     Manager getManagerByUsername(string &username);
 
     optional<Manager> getManagerById(int id);
+
+    void createManager(string &username, string &password);
+
+      // temporary function
+    void printall()
+    {
+        this->list->showForward();
+    }
 };
 
 ManagerDao *ManagerDao::instancePtr = nullptr;
@@ -89,4 +97,15 @@ optional<Manager> ManagerDao::getManagerById(int id)
         return nullopt;
     }
     return this->list->get(index);
+}
+
+void ManagerDao::createManager(string &username, string &password)
+{
+    Manager manager;
+    manager.setUserId(User::getAndIncrementId());
+    manager.setUsername(username);
+    manager.setPassword(password);
+    manager.setRole(2);
+    manager.setActive(true);
+    list->add(manager);
 }
