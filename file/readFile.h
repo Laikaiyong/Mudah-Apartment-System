@@ -90,7 +90,15 @@ Property *readFile(int rowSize)
         property.setFurnished(data[10].empty() ? "-" : data[10]);
         property.setFacilities(data[11].empty() ? "-" : data[11]);
         property.setAdditionalFacilities(data[12].empty() ? "-" : data[12]);
-        property.setRentStatus("Available");
+
+        if (data[2].empty())
+        {
+            property.setRentStatus("Unavailable");
+        }
+        else
+        {
+            property.setRentStatus("Available");
+        }
 
         propertyList[j++] = property;
     }

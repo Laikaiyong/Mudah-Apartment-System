@@ -5,21 +5,26 @@ using namespace std;
 
 class Manager : public User
 {
-    string activeStatus;
+    bool active;
 
 public:
     Manager(){};
 
-    Manager(int userId, string username, string password, int role, string activeStatus) : User(userId, username, password, role), activeStatus(activeStatus) {};
+    Manager(int userId, string username, string password, int role, bool active) : User(userId, username, password, role), active(active) {};
 
-    void setActiveStatus(string newActiveStatus)
+    bool isActive()
     {
-        activeStatus = newActiveStatus;
+        return active;
     }
 
-    string getActiveStatus()
+    void setActive(bool newActive)
     {
-        return this->activeStatus;
+        active = newActive;
+    }
+
+    string getStatus()
+    {
+        return active ? "Active" : "Inactive";
     }
 
     friend std::ostream &operator<<(std::ostream &os, Manager &manager)
@@ -29,7 +34,7 @@ public:
         os << "User ID: " << manager.getUserId() << endl;
         os << "Username: " << manager.getUsername() << endl;
         os << "Role: " << manager.getRole() << endl;
-        os << "Active: " << manager.getActiveStatus() << endl;
+        os << "Active: " << manager.getStatus() << endl;
         return os;
     }
 };

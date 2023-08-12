@@ -106,6 +106,6 @@ void ManagerDao::createManager(string &username, string &password)
     manager.setUsername(username);
     manager.setPassword(password);
     manager.setRole(2);
-    manager.setActiveStatus("active");
+    manager.setActive(true);
     list->add(manager);
 }

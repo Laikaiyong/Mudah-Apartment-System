@@ -39,7 +39,7 @@ public:
         os << "User ID: " << tenant.getUserId() << endl;
         os << "Username: " << tenant.getUsername() << endl;
         os << "Role: " << tenant.getRole() << endl;
-        os << "Active: " << tenant.active << endl;
+        os << "Active: " << tenant.getStatus() << endl;
         return os;
     }
 
@@ -51,6 +51,11 @@ public:
     void setActive(bool newActive)
     {
         active = newActive;
+    }
+
+    string getStatus()
+    {
+        return active ? "Active" : "Inactive";
     }
 
     void displayFavouritePropertyList(int propPerPage, int &startPage);
