@@ -1,6 +1,8 @@
 #include <iostream>
 #include "../../dao/tenantDao.h"
+#include "../../dao/rentRequestDao.h"
 #include "tenants.h"
+#include "manageTenancyReq.h"
 using namespace std;
 
  void managerHome() {
@@ -12,7 +14,6 @@ using namespace std;
         cout << "1. Display All Registered Tenant' Details\n";
         cout << "2. Generate Report\n";
         cout << "3. Manage Tenency Process\n";
-        cout << "4. Manage payment of confirmed tenency\n";
         cout << "0. LogOut\n";
         cout << "-------------------------------\n";
         cout << "Enter your choice: ";
@@ -21,7 +22,7 @@ using namespace std;
         cin >> choice;
 
         switch(choice) {          
-   
+            
             case 1:
                 tenentsPage();
                 break;
@@ -29,10 +30,7 @@ using namespace std;
                 //();
                 break;
             case 3:
-                //();
-                break;
-            case 4:
-                //;
+                manageTentReqPage();
                 break;
 
             default: cout << "Invalid choice. Try again.\n";

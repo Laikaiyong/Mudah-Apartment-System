@@ -84,7 +84,7 @@ void tenentsPage()
                 return;
             }
             cout << "Tenant ID : \"" + id << "\" is not found from your inactivity list, please try again.\n";
-        break;
+            return;
 
         default:
             cout << "Invalid option. Please try again.\n";
