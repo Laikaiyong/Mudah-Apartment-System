@@ -35,6 +35,8 @@ public:
 
     bool deleteTenantById(int id);
 
+    Tenant *getAllTenant(int &size);
+
     // temporary function
     void printall()
     {
@@ -104,7 +106,6 @@ void TenantDao::createTenant(string &username, string &password)
     tenant.setUserId(User::getAndIncrementId());
     tenant.setUsername(username);
     tenant.setPassword(password);
-    tenant.setUsername(username);
     tenant.setRole(1);
     tenant.setActive(true);
     tenant.initFavouritePropertyList();
@@ -137,4 +138,10 @@ bool TenantDao::deleteTenantById(int id)
     }
     this->list->remove(index);
     return true;
+}
+
+Tenant *TenantDao::getAllTenant(int &size)
+{
+    size = this->list->getSize();
+    return this->list->cloneArray();
 }
