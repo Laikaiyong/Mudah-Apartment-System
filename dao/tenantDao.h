@@ -27,7 +27,7 @@ public:
 
     bool checkTenantUsernameTaken(string &username);
 
-    Tenant getTenantByUsername(string &username);
+    optional<Tenant> getTenantByUsername(string &username);
 
     void createTenant(string &username, string &password);
 
@@ -83,7 +83,7 @@ bool TenantDao::checkTenantUsernameTaken(string &username)
                                   { return t1.getUsername() == t2.getUsername(); });
 }
 
-Tenant TenantDao::getTenantByUsername(string &username)
+optional<Tenant> TenantDao::getTenantByUsername(string &username)
 {
     Tenant dummyTenant;
     dummyTenant.setUsername(username);
@@ -97,7 +97,7 @@ Tenant TenantDao::getTenantByUsername(string &username)
         }
     }
 
-    throw runtime_error("Tenant not found");
+    return nullopt;
 }
 
 void TenantDao::createTenant(string &username, string &password)

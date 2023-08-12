@@ -25,7 +25,7 @@ public:
 
     void setCurrentManager(int id);
 
-    Manager getManagerByUsername(string &username);
+    optional<Manager> getManagerByUsername(string &username);
 
     optional<Manager> getManagerById(int id);
 };
@@ -61,7 +61,7 @@ void ManagerDao::setCurrentManager(int id)
     currentManager = &(this->list->get(index));
 }
 
-Manager ManagerDao::getManagerByUsername(string &username)
+optional<Manager> ManagerDao::getManagerByUsername(string &username)
 {
     Manager dummyManager;
     dummyManager.setUsername(username);
@@ -75,7 +75,7 @@ Manager ManagerDao::getManagerByUsername(string &username)
         }
     }
 
-    throw runtime_error("Manager not found");
+    return nullopt;
 }
 
 optional<Manager> ManagerDao::getManagerById(int id)
