@@ -33,6 +33,8 @@ public:
 
     optional<Tenant> getTenantById(int id);
 
+    void updateTenantStatusById(int id, bool activeStatus);
+
     bool deleteTenantById(int id);
 
     Tenant *getAllTenant(int &size);
@@ -124,6 +126,21 @@ optional<Tenant> TenantDao::getTenantById(int id)
         return nullopt;
     }
     return this->list->get(index);
+}
+
+void TenantDao::updateTenantStatusById(int id, bool activeStatus)
+{
+    Tenant tempTenant;
+    tempTenant.setUserId(id);
+    int index = this->list->customIndexOf(tempTenant, [](Tenant &t1, Tenant &t2)
+                                          { return t1.getUserId() == t2.getUserId(); });
+    if (index == -1)
+    {
+        cout << "Update status failed, Tenant ID:" << tempTenant.getUserId() << " not found.";
+        return;
+    }
+    Tenant &tenant = this->list->get(index);
+    tenant.setActive(activeStatus);
 }
 
 bool TenantDao::deleteTenantById(int id)

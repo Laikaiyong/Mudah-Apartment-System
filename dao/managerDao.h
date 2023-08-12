@@ -28,6 +28,8 @@ public:
     optional<Manager> getManagerByUsername(string &username);
 
     optional<Manager> getManagerById(int id);
+
+    void updateManagerStatusById(int id, bool activeStatus);
 };
 
 ManagerDao *ManagerDao::instancePtr = nullptr;
@@ -89,4 +91,19 @@ optional<Manager> ManagerDao::getManagerById(int id)
         return nullopt;
     }
     return this->list->get(index);
+}
+
+void ManagerDao::updateManagerStatusById(int id, bool activeStatus)
+{
+    Manager tempManager;
+    tempManager.setUserId(id);
+    int index = this->list->customIndexOf(tempManager, [](Manager &m1, Manager &m2)
+                                          { return m1.getUserId() == m2.getUserId(); });
+    if (index == -1)
+    {
+        cout << "Update status failed, Manager ID:" << tempManager.getUserId() << " not found.";
+        return;
+    }
+    Manager &manager = this->list->get(index);
+    manager.setActive(activeStatus);
 }
