@@ -28,7 +28,7 @@ public:
         os << "User ID: " << tenant.getUserId() << endl;
         os << "Username: " << tenant.getUsername() << endl;
         os << "Role: " << tenant.getRole() << endl;
-        os << "Active: " << tenant.active << endl;
+        os << "Status: " << tenant.getStatus() << endl;
         return os;
     }
 
@@ -40,6 +40,11 @@ public:
     void setActive(bool newActive)
     {
         active = newActive;
+    }
+
+    string getStatus()
+    {
+        return active ? "Active" : "Inactive";
     }
 
     CiruclarLinkedList<Property> *getFavouritePropertyList()
@@ -65,6 +70,8 @@ public:
     }
 
     void displayFavouritePropertyList(int propPerPage, int &startPage);
+
+    bool checkFavourtitePropertyExist(Property &property);
 
     void addFavourtiteProperty(Property &property);
 
@@ -109,6 +116,12 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
     {
         cout << favourtitePropertyList->get(i) << endl;
     }
+}
+
+bool Tenant::checkFavourtitePropertyExist(Property &property)
+{
+    return this->favourtitePropertyList->customFind(property, [](Property &p1, Property &p2)
+                                          { return p1.getAdsId() == p2.getAdsId(); });
 }
 
 void Tenant::addFavourtiteProperty(Property &property)
