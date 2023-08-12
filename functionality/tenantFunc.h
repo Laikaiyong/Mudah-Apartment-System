@@ -76,7 +76,7 @@ void createRentRequest()
     string id;
     string anyKey;
     optional<Property> optionalProperty;
-    RentRequestDao *rentRequestDao = RentRequestDao::getInstance();
+    PropertyDao *propertyDao = PropertyDao::getInstance();
     TenantDao *tenantDao = TenantDao::getInstance();
     Tenant *tenant = tenantDao->getCurrentTenant();
     while (true)
@@ -89,15 +89,24 @@ void createRentRequest()
             return;
         }
         optionalProperty = tenant->getFavourtitePropertyById(id);
-        if (optionalProperty.has_value())
+        if (!optionalProperty.has_value())
         {
-            rentRequestDao->createRentRequest(*tenant, optionalProperty.value());
-            cout << "Successfully create rent request of property id: " + id << endl;
-            cout << "Press any key to continue.\n";
-            cin >> anyKey;
-            return;
+            cout << "Property ID : \"" + id + "\" is not found from your favourite property list, please try again." << endl;
+            continue;
         }
-        cout << "Property ID : \"" + id + "\" is not found from your favourite property list, please try again." << endl;
+        optionalProperty = propertyDao->getById(id);
+        Property property = optionalProperty.value();
+        if (property.getRentStatus() != "Available")
+        {
+            cout << "Property ID : \"" + id + "\" is currently unavailable, please try again next time." << endl;
+            continue;
+        }
+        RentRequestDao *rentRequestDao = RentRequestDao::getInstance();
+        rentRequestDao->createRentRequest(*tenant, optionalProperty.value());
+        cout << "Successfully create rent request of property id: " + id << endl;
+        cout << "Press any key to continue.\n";
+        cin >> anyKey;
+        return;
     }
 }
 
@@ -140,13 +149,13 @@ void displayRentRequest(ArrayList<RentRequest> *rentRequestArray, int propPerPag
     cout << "----------------------------------------------------------" << endl;
 }
 
-void displayFilterRentRequest()
+void viewRentRequest()
 {
     TenantDao *tenantDao = TenantDao::getInstance();
     Tenant *tenant = tenantDao->getCurrentTenant();
     RentRequestDao *rentRequestDao = RentRequestDao::getInstance();
     ArrayList<RentRequest> *rentRequestList = rentRequestDao->getAllRentRequestByTenantId(tenant->getUserId());
-    
+
     int selectedPage = 1;
     int input;
     while (true)
