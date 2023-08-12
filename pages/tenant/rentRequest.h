@@ -24,7 +24,7 @@ void rentRequestPage()
             createRentRequest();
             break;
         case 2:
-            displayFilterRentRequest();
+            viewRentRequest();
             break;
         default:
             cout << "Invalid option. Please try again." << endl;

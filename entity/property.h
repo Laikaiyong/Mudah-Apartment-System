@@ -61,7 +61,6 @@ public:
         os << "Facilities: " << property.facilities << endl;
         os << "Additional Facilities: " << property.additionalFacilities << endl;
         os << "Region: " << property.region << endl;
-        os << "Rent Status: " << property.rentStatus << endl;
         return os;
     }
 
