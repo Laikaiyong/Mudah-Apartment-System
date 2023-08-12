@@ -9,7 +9,7 @@ Property *readFile(int rowSize)
 {
     Property *propertyList = new Property[rowSize];
     Property property;
-    string data[13];
+    string data[14];
 
     const string filepath = "file/mudah-apartment-kl-selangor.csv";
     ifstream file;
@@ -30,7 +30,7 @@ Property *readFile(int rowSize)
 
         while (getline(ss, item, ','))
         {
-            if (item.front() == '"')
+            if (item.size() != 0 && item.front() == '"')
             {
                 // handle quoted dield spanning multiple lines
                 while (getline(ss, nextitem, ','))
@@ -99,6 +99,7 @@ Property *readFile(int rowSize)
         {
             property.setRentStatus("Available");
         }
+        property.setRegion(data[13].empty() ? "-" : data[13]);
 
         propertyList[j++] = property;
     }

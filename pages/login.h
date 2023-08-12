@@ -33,7 +33,7 @@ void adminLoginPage()
         )
         {
             adminHome(username);
-            break;
+            return;
         }
         else
         {

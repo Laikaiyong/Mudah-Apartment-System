@@ -18,12 +18,13 @@ class Property
     string furnished;
     string facilities;
     string additionalFacilities;
+    string region;
     string rentStatus;
 
 public:
     Property(){};
 
-    Property(string adsId, string propName, int completionYear, float monthlyRent, string location, string propertyType, int rooms, int parking, int bathroom, int size, string furnished, string facilities, string additionalFacilities, string rentStatus)
+    Property(string adsId, string propName, int completionYear, float monthlyRent, string location, string propertyType, int rooms, int parking, int bathroom, int size, string furnished, string facilities, string additionalFacilities, string region, string rentStatus)
     {
         this->adsId = adsId;
         this->propName = propName;
@@ -38,6 +39,7 @@ public:
         this->furnished = furnished;
         this->facilities = facilities;
         this->additionalFacilities = additionalFacilities;
+        this->region = region;
         this->rentStatus = rentStatus;
     }
 
@@ -58,7 +60,7 @@ public:
         os << "Furnished: " << property.furnished << endl;
         os << "Facilities: " << property.facilities << endl;
         os << "Additional Facilities: " << property.additionalFacilities << endl;
-        os << "Rent Status: " << property.rentStatus << endl;
+        os << "Region: " << property.region << endl;
         return os;
     }
 
@@ -190,6 +192,16 @@ public:
     void setAdditionalFacilities(string additionalFacilities)
     {
         this->additionalFacilities = additionalFacilities;
+    }
+
+    string getRegion()
+    {
+        return region;
+    }
+
+    void setRegion(string region)
+    {
+        this->region = region;
     }
 
     string getRentStatus()
