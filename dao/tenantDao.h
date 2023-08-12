@@ -12,10 +12,13 @@ class TenantDao
     static Tenant *currentTenant;
 
     CiruclarLinkedList<Tenant> *list;
+    CiruclarLinkedList<Tenant> *filterList;
 
     TenantDao()
     {
         list = new CiruclarLinkedList<Tenant>();
+        this->createTenantByState("tenant", "secret", true);
+        this->createTenantByState("tenant1", "secret", false);
     }
 
 public:
@@ -31,9 +34,19 @@ public:
 
     void createTenant(string &username, string &password);
 
+    void createTenantByState(string username, string password, bool activeState);
+
     optional<Tenant> getTenantById(int id);
 
     bool deleteTenantById(int id);
+
+    template <typename Filter>
+    void filter(Filter compare);
+
+    void displayAllPropsByPage();
+
+    void displayFilterPropsByPage();
+
 
     // temporary function
     void printall()
@@ -104,11 +117,21 @@ void TenantDao::createTenant(string &username, string &password)
     tenant.setUserId(User::getAndIncrementId());
     tenant.setUsername(username);
     tenant.setPassword(password);
-    tenant.setUsername(username);
     tenant.setRole(1);
     tenant.setActive(true);
     tenant.initFavouritePropertyList();
     tenant.initRentHistoryPropertyList();
+    list->add(tenant);
+}
+
+void TenantDao::createTenantByState(string username, string password, bool activeState)
+{
+    Tenant tenant;
+    tenant.setUserId(User::getAndIncrementId());
+    tenant.setUsername(username);
+    tenant.setPassword(password);
+    tenant.setRole(1);
+    tenant.setActive(activeState);
     list->add(tenant);
 }
 
@@ -137,4 +160,62 @@ bool TenantDao::deleteTenantById(int id)
     }
     this->list->remove(index);
     return true;
+}
+
+void TenantDao::displayAllPropsByPage()
+{
+    for (int i = 0; i < list->getSize(); i++)
+    {
+        cout << list->get(i) << endl;
+    }
+}
+
+void TenantDao::displayFilterPropsByPage()
+{
+    if (filterList->getSize() > 0)
+    {
+        for (int i = 0; i < filterList->getSize(); i++)
+        {
+            cout << filterList->get(i) << endl;
+        }
+    }
+}
+
+template <typename Filter>
+void TenantDao::filter(Filter compare)
+{
+    filterList = new CiruclarLinkedList<Tenant>();
+    int totalMatch = 0;
+    // increment the totalMatch if match filter
+    if(list->getSize() != 0)
+    {
+        for (int i = 0; i < list->getSize(); i++)
+        {
+            if (compare(list->get(i)))
+            {
+                totalMatch++;
+            }
+        }
+        if (totalMatch == 0)
+        {
+            filterList = new CiruclarLinkedList<Tenant>();
+        }
+        // create an array to store all the filter data
+        Tenant *newArray = new Tenant[totalMatch];
+        int j = 0;
+        // store data if filter match
+        for (int i = 0; i < list->getSize(); i++)
+        {
+            if (compare(list->get(i)))
+            {
+                newArray[j++] = list->get(i);
+            }
+        }
+        filterList = new CiruclarLinkedList<Tenant>(newArray, totalMatch);
+        cout << "Successfully filter tenant" << endl;
+    }
+    else
+    {
+        cout << "No records found, filter unavailable";
+    } 
 }
