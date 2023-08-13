@@ -62,6 +62,8 @@ public:
     void filter(Filter compare);
 
     optional<Property> getById(string id);
+
+    ArrayList<Property> *searchByPropertyName(string searchPropName);
 };
 
 PropertyDao *PropertyDao::instancePtr = nullptr;
@@ -300,4 +302,22 @@ optional<Property> PropertyDao::getById(string id)
         return nullopt;
     }
     return this->list->get(index);
+}
+
+ArrayList<Property> *PropertyDao::searchByPropertyName(string searchPropName)
+{
+    ArrayList<Property> *propertyList = new ArrayList<Property>();
+    int totalMatch = 0;
+    string propName;
+    // add into list if match the search word
+    for (int i = 0; i < this->list->getSize(); i++)
+    {
+        propName = this->list->get(i).getPropName();
+        size_t found = propName.find(searchPropName);
+        if (found != string::npos)
+        {
+            propertyList->add(this->list->get(i));
+        }
+    }
+    return propertyList;
 }
