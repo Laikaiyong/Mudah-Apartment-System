@@ -5,15 +5,15 @@
 
 using namespace std;
 
-//Search Tenant ID to show tenant's details function.
+// Search Tenant ID to show tenant's details function.
 void searchTenantID()
 {
     int id;
     cin >> id;
-    TenantDao *tenantDao = TenantDao::getInstance();  
+    TenantDao *tenantDao = TenantDao::getInstance();
     optional<Tenant> optionalTenant = tenantDao->getTenantById(id);
-    
-    if(optionalTenant.has_value())
+
+    if (optionalTenant.has_value())
     {
         Tenant tenant = optionalTenant.value();
 
@@ -53,7 +53,7 @@ void tenentsPage()
         int id;
         string anyKey;
 
-        switch(choice)
+        switch (choice)
         {
         case 1:
             cout << "Please type the page number to display the tenants\n";
@@ -76,7 +76,7 @@ void tenentsPage()
             {
                 return;
             }
-            if (tenantDao->deleteTenantById(id))
+            if (tenantDao->deleteInactiveTenantById(id))
             {
                 cout << "Successfully remove tenantid: " + id << " from database\n";
                 cout << "Press any key to continue.\n";
@@ -89,7 +89,8 @@ void tenentsPage()
         default:
             cout << "Invalid option. Please try again.\n";
 
-        case 0: return;
+        case 0:
+            return;
             break;
         }
     }
