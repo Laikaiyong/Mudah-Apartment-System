@@ -42,11 +42,106 @@ void displayTenant()
     }
 }
 
+
+void filterLoop(string type, string value)
+{
+    int filterStart = 1;
+    string title;
+    PropertyDao *propertyDao = PropertyDao::getInstance();
+    int input;
+    while (true)
+    {
+        if (type == "rent")
+        {
+            if (value == "available")
+            {
+                propertyDao->filter([](Property &p1)
+                { return p1.getRentStatus() == "Available"; });
+
+                title = "\n-- Available Property --" ;
+            }
+            else if (value == "unavailable")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getRentStatus() == "Unavailable"; });
+
+                title = "\n-- Unavailable Property --" ;
+            }
+            else if (value == "rented")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getRentStatus() == "Rented"; });
+                title = "\n-- Rented Property --";
+            }
+            else
+            {
+                cout << "Invalid filter option, returning to action menu" << endl;
+                return;
+            }
+
+        }
+        else if (type == "furnished")
+        {
+            if (value == "-")
+            {
+                propertyDao->filter([](Property &p1)
+                                    { return p1.getFurnished() == "-"; });
+                    
+                title = "\n-- Unknown Furnished Property --";
+            }
+            else if (value == "fully")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getFurnished() == "Fully Furnished"; });
+                title = "\n-- 'Fully' Furnished Property --";
+            }
+            else if (value == "partial")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getFurnished() == "Partially Furnished"; });
+                title = "\n-- 'Partially' Furnished Property --";
+            }
+            else if (value == "not")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getFurnished() == "Not Furnished"; });
+                title = "\n-- 'Not' Furnished Property --";
+            }
+            else
+            {
+                cout << "Invalid filter option, returning to action menu" << endl;
+                return;
+            }
+        }
+
+        cout << title << endl;
+        propertyDao->displayFilterPropsByPage(5, filterStart);
+
+        cout << "Current Filtered Page: " + to_string(filterStart) << endl;
+        cout << "Please press your selected option:" << endl;
+        cout << "Option 1: Change page." << endl;
+        cout << "Option 0: Back." << endl;
+        cin >> input;
+
+        switch (input)
+        {
+        case 0:
+            return;
+            break;
+        case 1:
+            cout << "Please type the page number to display the property" << endl;
+            cin >> filterStart;
+            break;
+        default:
+            cout << "Invalid option. Please try again." << endl;
+        }
+    }
+}
+
 void displayProperty()
 {
     PropertyDao *propertyDao = PropertyDao::getInstance();
     int startPage = 1;
-    int filterStart = 1;
     cout << "-- All Property --\n\nPage " << startPage << endl;
     propertyDao->displayAllPropsByPage(5, startPage);
 
@@ -86,35 +181,9 @@ void displayProperty()
             {
                 return;
             }
-            else if (filterChoice == "available")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getRentStatus() == "Available"; });
-                
-                cout << "\n-- Available Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else if (filterChoice == "unavailable")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getRentStatus() == "Unavailable"; });
-                cout << "\n-- Unavailable Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else if (filterChoice == "rented")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getRentStatus() == "Rented"; });
-                cout << "\n-- Rented Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
             else
             {
-                cout << "Invalid filter option, returning to action menu" << endl;
-                return;
+                filterLoop("rent", filterChoice);
             }
         }
         //  Filter Furnished Status (-, Fully Furnished, Partially Furnished, Not Furnished)
@@ -128,42 +197,9 @@ void displayProperty()
             {
                 return;
             }
-            else if (filterChoice == "-")
+            else 
             {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getFurnished() == "-"; });
-                
-                cout << "\n-- '-' Furnished Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else if (filterChoice == "fully")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getFurnished() == "Fully Furnished"; });
-                cout << "\n-- 'Fully' Furnished Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else if (filterChoice == "partial")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getFurnished() == "Partially Furnished"; });
-                cout << "\n-- 'Partially' Furnished Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else if (filterChoice == "not")
-            {
-                propertyDao->filter([](Property &p1)
-                    { return p1.getFurnished() == "Not Furnished"; });
-                cout << "\n-- 'Not' Furnished Property --" << endl;
-                propertyDao->displayFilterPropsByPage(5, filterStart);
-                return;
-            }
-            else
-            {
-                cout << "Invalid filter option, returning to action menu" << endl;
+                filterLoop("furnished", filterChoice);
             }
         }
         // Return to main functionality
