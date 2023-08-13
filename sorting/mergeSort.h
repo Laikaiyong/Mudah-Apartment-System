@@ -68,5 +68,4 @@ void merge(T *array, T *leftArray, T *rightArray, int leftSize, int rightSize, C
         array[i++] = rightArray[r];
     }
 }
-
 #endif

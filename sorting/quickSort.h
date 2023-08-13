@@ -1,3 +1,5 @@
+#ifndef QUICKSORT_H
+#define QUICKSORT_H
 #include <iostream>
 
 using namespace std;
@@ -37,5 +39,4 @@ void quickSort(T array[], int low, int high, Compare compare) {
     quickSort(array, pi + 1, high, compare);
   }
 }
-
-
+#endif

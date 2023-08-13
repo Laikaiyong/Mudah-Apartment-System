@@ -1,3 +1,5 @@
+#ifndef LINEARSEARCH_H
+#define LINEARSEARCH_H
 #include <iostream>
 using namespace std;
 
@@ -14,3 +16,4 @@ int linearSearch(T *array, int size, T value, Compare compare)
 
     return -1;
 }
+#endif
