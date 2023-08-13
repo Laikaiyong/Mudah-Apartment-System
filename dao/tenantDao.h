@@ -138,6 +138,8 @@ void TenantDao::createTenantByState(string username, string password, bool activ
     tenant.setPassword(password);
     tenant.setRole(1);
     tenant.setActive(activeState);
+    tenant.initFavouritePropertyList();
+    tenant.initRentHistoryPropertyList();
     list->add(tenant);
 }
 
