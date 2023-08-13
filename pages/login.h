@@ -56,18 +56,26 @@ void tenantLoginPage()
         cout << "Password: ";
         cin >> password;
 
-        Tenant tenant = tenantDao->getTenantByUsername(username);
+        optional<Tenant> tenantOpt = tenantDao->getTenantByUsername(username);
 
-        if (tenant.login(username, password) && tenant.isActive())
-        {
-            cout << "Tenant login successful!" << endl;
-            tenantDao->setCurrentTenent(tenant.getUserId());
-            tenantHome();
-            return;
+        if (tenantOpt.has_value()) {
+            Tenant tenant = tenantOpt.value();
+
+            if (tenant.login(username, password) && tenant.isActive())
+            {
+                cout << "Tenant login successful!" << endl;
+                tenantDao->setCurrentTenent(tenant.getUserId());
+                tenantHome();
+                return;
+            }
+            else
+            {
+                cout << "Invalid credentials, try again.\n" << endl;
+            }
         }
         else
         {
-            cout << "Invalid credentials, try again.\n" << endl;
+            cout << "Tenant not found.\n" << endl;
         }
     }
 
@@ -88,18 +96,26 @@ void managerLoginPage()
         cout << "Password: ";
         cin >> password;
 
-        Manager manager = managerDao->getManagerByUsername(username);
+        optional<Manager> managerOpt = managerDao->getManagerByUsername(username);
 
-        if (manager.login(username, password))
-        {
-            cout << "Manager login successful!" << endl;
-            managerDao->setCurrentManager(manager.getUserId());
-            managerHome();
-            return;
+        if (managerOpt.has_value()) {
+            Manager manager = managerOpt.value();
+
+            if (manager.login(username, password))
+            {
+                cout << "Manager login successful!" << endl;
+                managerDao->setCurrentManager(manager.getUserId());
+                managerHome();
+                return;
+            }
+            else
+            {
+                cout << "Invalid credentials, try again.\n" << endl;
+            }
         }
         else
         {
-            cout << "Invalid credentials, try again.\n" << endl;
+            cout << "Manager not found.\n" << endl;
         }
     }
 

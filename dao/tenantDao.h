@@ -3,6 +3,7 @@
 #include <optional>
 #include "../data-structure/CircularLinkedList.h"
 #include "../entity/tenant.h"
+#include "../sorting/mergeSort.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ public:
 
     bool checkTenantUsernameTaken(string &username);
 
-    Tenant getTenantByUsername(string &username);
+    optional<Tenant> getTenantByUsername(string &username);
 
     void createTenant(string &username, string &password);
 
@@ -38,7 +39,15 @@ public:
 
     optional<Tenant> getTenantById(int id);
 
+    void updateTenantStatusById(int id, bool activeStatus);
+
     bool deleteTenantById(int id);
+
+    Tenant *getAllTenant(int &size);
+    
+    void displayAllTentsByPage(int tentPerPage, int &startPage);
+
+    void sortIdByAsc();
 
     template <typename Filter>
     void filter(Filter compare);
@@ -46,7 +55,6 @@ public:
     void displayAllPropsByPage();
 
     void displayFilterPropsByPage();
-
 
     // temporary function
     void printall()
@@ -94,7 +102,7 @@ bool TenantDao::checkTenantUsernameTaken(string &username)
                                   { return t1.getUsername() == t2.getUsername(); });
 }
 
-Tenant TenantDao::getTenantByUsername(string &username)
+optional<Tenant> TenantDao::getTenantByUsername(string &username)
 {
     Tenant dummyTenant;
     dummyTenant.setUsername(username);
@@ -108,7 +116,7 @@ Tenant TenantDao::getTenantByUsername(string &username)
         }
     }
 
-    throw runtime_error("Tenant not found");
+    return nullopt;
 }
 
 void TenantDao::createTenant(string &username, string &password)
@@ -148,13 +156,33 @@ optional<Tenant> TenantDao::getTenantById(int id)
     return this->list->get(index);
 }
 
+void TenantDao::updateTenantStatusById(int id, bool activeStatus)
+{
+    Tenant tempTenant;
+    tempTenant.setUserId(id);
+    int index = this->list->customIndexOf(tempTenant, [](Tenant &t1, Tenant &t2)
+                                          { return t1.getUserId() == t2.getUserId(); });
+    if (index == -1)
+    {
+        cout << "Update status failed, Tenant ID:" << tempTenant.getUserId() << " not found.";
+        return;
+    }
+    Tenant &tenant = this->list->get(index);
+    tenant.setActive(activeStatus);
+}
+
 bool TenantDao::deleteTenantById(int id)
 {
     Tenant tenant;
     tenant.setUserId(id);
     int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
                                           { return t1.getUserId() == t2.getUserId(); });
+    
     if (index == -1)
+    {
+        return false;
+    }
+    if (this->list->get(index).isActive())
     {
         return false;
     }
@@ -162,23 +190,51 @@ bool TenantDao::deleteTenantById(int id)
     return true;
 }
 
-void TenantDao::displayAllPropsByPage()
+Tenant *TenantDao::getAllTenant(int &size)
 {
-    for (int i = 0; i < list->getSize(); i++)
+    size = this->list->getSize();
+    return this->list->cloneArray();
+}
+
+void TenantDao::displayAllTentsByPage(int tentPerPage, int &startPage)
+{
+    if (startPage < 1)
+    {
+        throw invalid_argument("Starting page must be more than or equal one");
+    }
+    int restTent = list->getSize() % tentPerPage;
+    int totalPage = restTent > 0 ? (list->getSize() / tentPerPage) + 1 : list->getSize() / tentPerPage;
+
+    if (startPage > totalPage)
+    {
+        cout << "Total Page (" + to_string(totalPage) + ") have exceeded the starting page (" + to_string(startPage) + ")" << endl;
+        cout << "Displaying the last page" << endl;
+        startPage = totalPage;
+    }
+
+    int start = (startPage - 1) * tentPerPage;
+    int end;
+
+    if (startPage == totalPage)
+    {
+        end = start + restTent;
+    }
+    else
+    {
+        end = start + tentPerPage;
+    }
+    cout << endl;
+    for (int i = start; i < end; i++)
     {
         cout << list->get(i) << endl;
     }
 }
 
-void TenantDao::displayFilterPropsByPage()
+void TenantDao::sortIdByAsc()
 {
-    if (filterList->getSize() > 0)
-    {
-        for (int i = 0; i < filterList->getSize(); i++)
-        {
-            cout << filterList->get(i) << endl;
-        }
-    }
+    mergeSort(list->cloneArray(), list->getSize(), [](Tenant &t1, Tenant &t2)
+              { return t1.getUserId() < t2.getUserId(); });
+    cout << "Finish sort Tenant ID by ascending order" << endl;
 }
 
 template <typename Filter>
@@ -218,4 +274,23 @@ void TenantDao::filter(Filter compare)
     {
         cout << "No records found, filter unavailable";
     } 
+}
+
+void TenantDao::displayAllPropsByPage()
+{
+    for (int i = 0; i < list->getSize(); i++)
+    {
+        cout << list->get(i) << endl;
+    }
+}
+
+void TenantDao::displayFilterPropsByPage()
+{
+    if (filterList->getSize() > 0)
+    {
+        for (int i = 0; i < filterList->getSize(); i++)
+        {
+            cout << filterList->get(i) << endl;
+        }
+    }
 }
