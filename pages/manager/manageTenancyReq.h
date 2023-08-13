@@ -22,14 +22,14 @@ void manageTentReqPage()
         cout << "2. Approve Tenant's Rent Request\n";
         cout << "3. Update Payment Of Tenant Rent Request\n";
         cout << "0. Back\n";
-           
+
         int choice;
         cin >> choice;
         int id;
         string anyKey;
         RentRequest rentrequest;
 
-        switch(choice)
+        switch (choice)
         {
         case 1:
             cout << "Please type the page number to display the tenant's rent request\n";
@@ -51,8 +51,8 @@ void manageTentReqPage()
                 cin >> anyKey;
                 return;
             }
-                cout << "Press any key to continue.\n";
-                cin >> anyKey;
+            cout << "Press any key to continue.\n";
+            cin >> anyKey;
             return;
 
         case 3:
@@ -64,26 +64,23 @@ void manageTentReqPage()
             }
             rentrequest.setid(id);
             if (rentrequestDao->managePaymentProcess(rentrequest))
-             {
+            {
                 cout << "Payment has been confirmed." << endl;
-                
             }
             else
             {
                 cout << "Payment has not been made." << endl;
-            }  
+            }
             cout << "Press any key to continue.\n";
-            cin >> anyKey; 
+            cin >> anyKey;
             return;
 
         default:
             cout << "Invalid option. Please try again.\n";
 
-        case 0: return;
+        case 0:
+            return;
             break;
         }
     }
 }
-
-   
-
