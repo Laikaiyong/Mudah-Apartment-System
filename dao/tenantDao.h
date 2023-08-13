@@ -18,8 +18,6 @@ class TenantDao
     TenantDao()
     {
         list = new CiruclarLinkedList<Tenant>();
-        this->createTenantByState("tenant", "secret", true);
-        this->createTenantByState("tenant1", "secret", false);
     }
 
 public:
@@ -140,6 +138,8 @@ void TenantDao::createTenantByState(string username, string password, bool activ
     tenant.setPassword(password);
     tenant.setRole(1);
     tenant.setActive(activeState);
+    tenant.initFavouritePropertyList();
+    tenant.initRentHistoryPropertyList();
     list->add(tenant);
 }
 
