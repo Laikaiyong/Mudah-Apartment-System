@@ -16,6 +16,10 @@ class ManagerDao
     ManagerDao()
     {
         list = new CiruclarLinkedList<Manager>();
+
+        string managerUsername = "manager";
+        string managerPassword = "secret";
+        this->createManager(managerUsername, managerPassword);
     }
 
 public:
@@ -33,7 +37,7 @@ public:
 
     void createManager(string &username, string &password);
 
-      // temporary function
+    // temporary function
     void printall()
     {
         this->list->showForward();
@@ -90,14 +94,21 @@ optional<Manager> ManagerDao::getManagerByUsername(string &username)
 
 optional<Manager> ManagerDao::getManagerById(int id)
 {
+    // cout << "Searching for manager with ID: " << id << endl;
+
     Manager manager;
     manager.setUserId(id);
     int index = this->list->customIndexOf(manager, [](Manager &m1, Manager &m2)
                                           { return m1.getUserId() == m2.getUserId(); });
+
+    // cout << "Index found: " << index << endl;
+
     if (index == -1)
     {
+        // cout << "Manager not found." << endl;
         return nullopt;
     }
+    // cout << "Manager found at index: " << index << endl;
     return this->list->get(index);
 }
 
@@ -114,6 +125,8 @@ void ManagerDao::updateManagerStatusById(int id, bool activeStatus)
     }
     Manager &manager = this->list->get(index);
     manager.setActive(activeStatus);
+    cout << "Update successfully" <<endl;
+    cout << manager;
 }
 
 void ManagerDao::createManager(string &username, string &password)

@@ -79,7 +79,7 @@ void displayProperty()
         else if(nextOption == 2)
         {
             string filterChoice = "";
-            cout << "Filter Availability? (available, unavailable)\nSelect \"0\" to return to action menu\nFilter Choice: ";
+            cout << "Filter Availability? (available, unavailable, rented)\nSelect \"0\" to return to action menu\nFilter Choice: ";
             cin >> filterChoice;
 
             if (filterChoice == "0")
@@ -100,6 +100,14 @@ void displayProperty()
                 propertyDao->filter([](Property &p1)
                     { return p1.getRentStatus() == "Unavailable"; });
                 cout << "\n-- Unavailable Property --" << endl;
+                propertyDao->displayFilterPropsByPage(5, filterStart);
+                return;
+            }
+            else if (filterChoice == "rented")
+            {
+                propertyDao->filter([](Property &p1)
+                    { return p1.getRentStatus() == "Rented"; });
+                cout << "\n-- Rented Property --" << endl;
                 propertyDao->displayFilterPropsByPage(5, filterStart);
                 return;
             }
