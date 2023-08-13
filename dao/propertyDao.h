@@ -36,6 +36,8 @@ public:
 
     void printTopN(int num);
 
+    void updatePropertyRentStatus(Property &property, string rentStatus);
+
     /*  display the list by pages
         parameter:
         propPerPage - number of property shown in one page
@@ -129,6 +131,20 @@ void PropertyDao::printTopN(int num)
     }
 }
 
+void PropertyDao::updatePropertyRentStatus(Property &property, string rentStatus)
+ {
+    sortIdByAsc();
+    int index = binarySearch(this->list->getArray(), this->list->getSize(), property, [](Property &p1, Property &p2)
+                             { return p1.getAdsId() < p2.getAdsId(); });
+    if (index == -1)
+    {
+        cout << "Update failed, Property ID: " << property.getAdsId() << " does not exist.";
+        return;
+    }
+    property = this->list->get(index);
+    property.setRentStatus(rentStatus);
+ }
+ 
 void PropertyDao::displayAllPropsByPage(int propPerPage, int &startPage)
 {
     if (startPage < 1)

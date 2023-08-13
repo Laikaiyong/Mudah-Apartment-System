@@ -18,9 +18,21 @@ class RentRequest
 public:
     RentRequest(){};
 
-    RentRequest(int id) : id(id) {};
+    RentRequest(int id) : id(id){};
 
     RentRequest(Tenant tenant, Property property) : id(getAndIncrementId()), tenant(tenant), property(property), approve(0), paid(false){};
+
+    friend std::ostream &operator<<(std::ostream &os, RentRequest &rentRequest)
+    {
+        // Code to output the object's data to the ostream
+        os << "Rent Request Details:" << endl;
+        os << "User ID: " << rentRequest.getTenant().getUserId() << endl;
+        os << "Username: " << rentRequest.getTenant().getUsername() << endl;
+        os << rentRequest.getProperty() << endl;
+        os << "Appoval: " << rentRequest.getStringApprove() << endl;
+        os << "Paid Status: " << (rentRequest.isPaid() ? "Paid" : "Unpaid") << endl;
+        return os;
+    }
 
     static int getAndIncrementId()
     {
@@ -30,6 +42,11 @@ public:
     int getId()
     {
         return id;
+    }
+    
+    void setid(int id)
+    {
+        this->id = id;
     }
 
     Tenant &getTenant()

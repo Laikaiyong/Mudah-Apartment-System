@@ -1,3 +1,5 @@
+#ifndef MERGESORT_H
+#define MERGESORT_H
 #include <iostream>
 using namespace std;
 
@@ -66,3 +68,5 @@ void merge(T *array, T *leftArray, T *rightArray, int leftSize, int rightSize, C
         array[i++] = rightArray[r];
     }
 }
+
+#endif

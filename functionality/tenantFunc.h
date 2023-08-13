@@ -38,11 +38,19 @@ void selectProperty(optional<Property> &optionalProperty)
 
 void addFavouriteProperty(Property &property)
 {
-    string anyKey;
     TenantDao *tenantDao = TenantDao::getInstance();
     Tenant *tenant = tenantDao->getCurrentTenant();
-    tenant->addFavourtiteProperty(property);
-    cout << "Successfully added the selected property into your favourite property list.\n";
+    string anyKey;
+    if (tenant->checkFavourtitePropertyExist(property))
+    {
+        cout << "Property ID : \"" + property.getAdsId() + "\" is already exist in your favourite property list." << endl;
+    }
+    else
+    {
+        tenant->addFavourtiteProperty(property);
+        cout << "Successfully added the selected property into your favourite property list.\n";
+    }
+
     cout << "Press any key to continue.\n";
     cin >> anyKey;
 }

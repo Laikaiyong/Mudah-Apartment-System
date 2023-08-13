@@ -71,6 +71,8 @@ public:
 
     void displayFavouritePropertyList(int propPerPage, int &startPage);
 
+    bool checkFavourtitePropertyExist(Property &property);
+
     void addFavourtiteProperty(Property &property);
 
     optional<Property> getFavourtitePropertyById(string id);
@@ -114,6 +116,12 @@ void Tenant::displayFavouritePropertyList(int propPerPage, int &startPage)
     {
         cout << favourtitePropertyList->get(i) << endl;
     }
+}
+
+bool Tenant::checkFavourtitePropertyExist(Property &property)
+{
+    return this->favourtitePropertyList->customFind(property, [](Property &p1, Property &p2)
+                                          { return p1.getAdsId() == p2.getAdsId(); });
 }
 
 void Tenant::addFavourtiteProperty(Property &property)
