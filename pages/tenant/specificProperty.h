@@ -1,3 +1,5 @@
+#ifndef SPECIFICPROPERTYPAGE_H
+#define SPECIFICPROPERTYPAGE_H
 #include <iostream>
 #include <optional>
 #include "../../entity/property.h"
@@ -43,3 +45,4 @@ void specificPropertyPage()
         }
     }
 }
+#endif
