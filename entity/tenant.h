@@ -13,6 +13,7 @@ class Tenant : public User
     CiruclarLinkedList<Property> *favourtitePropertyList;
     ArrayList<Property> *rentHistoryPropertyList;
     bool active;
+    bool inactive;
 
 public:
     Tenant() : favourtitePropertyList(nullptr), rentHistoryPropertyList(nullptr){};
@@ -28,13 +29,24 @@ public:
         os << "User ID: " << tenant.getUserId() << endl;
         os << "Username: " << tenant.getUsername() << endl;
         os << "Role: " << tenant.getRole() << endl;
-        os << "Active: " << tenant.getStatus() << endl;
+        os << "Status: " << tenant.getStatus() << endl; 
         return os;
     }
 
     bool isActive()
     {
         return active;
+    }
+
+    bool isInactive()
+    {
+        return inactive;
+    }
+
+    void setInactive(bool newInactive) 
+    {
+        setActive(false);
+        inactive = newInactive;
     }
 
     void setActive(bool newActive)
