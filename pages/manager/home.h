@@ -3,7 +3,7 @@
 #include "../../dao/rentRequestDao.h"
 #include "tenants.h"
 #include "manageTenancyReq.h"
-#include "functionality/generateReport.h"
+#include "../../functionality/generateReport.h"
 using namespace std;
 
  void managerHome() {
