@@ -228,6 +228,10 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
     rentRequest.setApprove(input);
     if (input == 1)
     {
+        cout << "Tenancy process completed. Rent Request ID: \"" << rentRequest.getId() << "\" is approved." << endl;
+    }
+    if (input == 2)
+    {
         cout << "Tenancy process completed. Rent Request ID: \"" << rentRequest.getId() << "\" is rejected." << endl;
         return false;
     }
