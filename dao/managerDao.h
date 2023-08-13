@@ -30,6 +30,14 @@ public:
     optional<Manager> getManagerById(int id);
 
     void updateManagerStatusById(int id, bool activeStatus);
+
+    void createManager(string &username, string &password);
+
+      // temporary function
+    void printall()
+    {
+        this->list->showForward();
+    }
 };
 
 ManagerDao *ManagerDao::instancePtr = nullptr;
@@ -106,4 +114,15 @@ void ManagerDao::updateManagerStatusById(int id, bool activeStatus)
     }
     Manager &manager = this->list->get(index);
     manager.setActive(activeStatus);
+}
+
+void ManagerDao::createManager(string &username, string &password)
+{
+    Manager manager;
+    manager.setUserId(User::getAndIncrementId());
+    manager.setUsername(username);
+    manager.setPassword(password);
+    manager.setRole(2);
+    manager.setActive(true);
+    list->add(manager);
 }
