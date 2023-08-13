@@ -6,8 +6,10 @@
 #include "../../functionality/generateReport.h"
 using namespace std;
 
- void managerHome() {
-    while(true) {
+void managerHome()
+{
+    while (true)
+    {
         cout << "-------------------------------\n";
         cout << "      Manager's Dashboard\n";
         cout << "-------------------------------\n";
@@ -18,26 +20,29 @@ using namespace std;
         cout << "0. LogOut\n";
         cout << "-------------------------------\n";
         cout << "Enter your choice: ";
-        
+
         int choice;
         cin >> choice;
 
-        switch(choice) {          
-            
-            case 1:
-                tenentsPage();
-                break;
-            case 2:
-                generateTop10FavourtieProperty();
-                break;
-            case 3:
-                manageTentReqPage();
-                break;
+        switch (choice)
+        {
 
-            default: cout << "Invalid choice. Try again.\n";
-
-            case 0: return; // Exit the program
+        case 1:
+            tenentsPage();
             break;
-        }        
+        case 2:
+            generateTop10FavourtieProperty();
+            break;
+        case 3:
+            manageTentReqPage();
+            break;
+
+        default:
+            cout << "Invalid choice. Try again.\n";
+
+        case 0:
+            return; // Exit the program
+            break;
+        }
     }
 }

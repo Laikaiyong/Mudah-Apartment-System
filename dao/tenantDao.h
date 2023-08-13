@@ -43,7 +43,7 @@ public:
 
     void updateTenantStatusById(int id, bool activeStatus);
 
-    bool deleteTenantById(int id);
+    bool deleteInactiveTenantById(int id);
 
     Tenant *getAllTenant(int &size);
     
@@ -175,23 +175,35 @@ void TenantDao::updateTenantStatusById(int id, bool activeStatus)
     tenant.setActive(activeStatus);
 }
 
-bool TenantDao::deleteTenantById(int id)
+bool TenantDao::deleteInactiveTenantById(int id)
 {
     Tenant tenant;
     tenant.setUserId(id);
     int index = this->list->customIndexOf(tenant, [](Tenant &t1, Tenant &t2)
                                           { return t1.getUserId() == t2.getUserId(); });
-    
+
     if (index == -1)
     {
-        return false;
+        return false; // Tenant not found
     }
-    if (this->list->get(index).isActive())
+
+    Tenant &foundTenant = this->list->get(index);
+    
+    if (foundTenant.isActive())
     {
-        return false;
+        return false; // Cannot delete active tenant
     }
-    this->list->remove(index);
-    return true;
+
+    // Check for inactivity status (assuming isInactive() method is available in Tenant class)
+    if (foundTenant.isInactive())
+    {
+        this->list->remove(index); // Delete inactive tenant
+        return true;
+    }
+    else
+    {
+        return false; // Tenant is active or not inactive, do not delete
+    }
 }
 
 Tenant *TenantDao::getAllTenant(int &size)
