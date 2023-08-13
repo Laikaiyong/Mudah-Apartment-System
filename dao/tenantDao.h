@@ -18,6 +18,10 @@ class TenantDao
     TenantDao()
     {
         list = new CiruclarLinkedList<Tenant>();
+
+        // Initialize Tenants
+        this->createTenantByState("tenant", "secret", true);
+        this->createTenantByState("tenant1", "secret", false);
     }
 
 public:

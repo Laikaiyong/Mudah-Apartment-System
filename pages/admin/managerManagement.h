@@ -84,6 +84,7 @@ void modifyManagerStatus()
             }
 
             managerDao->updateManagerStatusById(id, newActiveStatus);
+            return;
         } else {
             cout << "Invalid choice. Please choose a valid option." << endl;
         }
