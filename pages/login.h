@@ -2,7 +2,6 @@
 #include "../entity/admin.h"
 #include "../dao/tenantDao.h"
 #include "../dao/managerDao.h"
-#include "../entity/admin.h"
 #include "../pages/admin/home.h"
 #include "../pages/tenant/home.h"
 #include "../pages/manager/home.h"
@@ -121,3 +120,6 @@ void managerLoginPage()
 
     cout << "Maximum login attempts reached.\n" << endl;
 }
+
+
+

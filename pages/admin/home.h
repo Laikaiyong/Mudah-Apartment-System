@@ -30,7 +30,8 @@ void adminHome(string name)
             addManager();
         }
         else if (input == 2)
-        {
+        {   
+            displayManager();
             modifyManagerStatus();
         }
         else if (input == 3)
