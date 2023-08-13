@@ -31,6 +31,7 @@ public:
 
     void createManager(string &username, string &password);
 
+    bool updateManagerStatus(int id, bool newActiveStatus);
     // temporary function
     void printall()
     {
@@ -88,14 +89,21 @@ Manager ManagerDao::getManagerByUsername(string &username)
 
 optional<Manager> ManagerDao::getManagerById(int id)
 {
+    // cout << "Searching for manager with ID: " << id << endl;
+
     Manager manager;
     manager.setUserId(id);
     int index = this->list->customIndexOf(manager, [](Manager &m1, Manager &m2)
                                           { return m1.getUserId() == m2.getUserId(); });
+
+    // cout << "Index found: " << index << endl;
+
     if (index == -1)
     {
+        // cout << "Manager not found." << endl;
         return nullopt;
     }
+    // cout << "Manager found at index: " << index << endl;
     return this->list->get(index);
 }
 
@@ -108,4 +116,19 @@ void ManagerDao::createManager(string &username, string &password)
     manager.setRole(2);
     manager.setActive(true);
     list->add(manager);
+}
+
+bool ManagerDao::updateManagerStatus(int id, bool newActiveStatus) {
+    optional<Manager> optionalManager = getManagerById(id);
+    if (!optionalManager.has_value()) {
+        cout << "Manager not found." << endl;
+        return false; // Manager not found
+    }
+
+    Manager &manager = optionalManager.value();
+
+    manager.setActive(newActiveStatus);
+    cout << "Manager status updated successfully." << endl;
+
+    return true;
 }

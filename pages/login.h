@@ -2,7 +2,6 @@
 #include "../entity/admin.h"
 #include "../dao/tenantDao.h"
 #include "../dao/managerDao.h"
-#include "../entity/admin.h"
 #include "../pages/admin/home.h"
 #include "../pages/tenant/home.h"
 #include "../pages/manager/home.h"
@@ -88,20 +87,36 @@ void managerLoginPage()
         cout << "Password: ";
         cin >> password;
 
-        Manager manager = managerDao->getManagerByUsername(username);
+        try
+        {
+            Manager manager = managerDao->getManagerByUsername(username);
 
-        if (manager.login(username, password))
-        {
-            cout << "Manager login successful!" << endl;
-            managerDao->setCurrentManager(manager.getUserId());
-            managerHome();
-            return;
+            if (!manager.isActive())
+            {
+                cout << "Manager is inactive. Cannot log in." << endl;
+                return;
+            }
+
+            if (manager.login(username, password))
+            {
+                cout << "Manager login successful!" << endl;
+                managerDao->setCurrentManager(manager.getUserId());
+                managerHome();
+                return;
+            }
+            else
+            {
+                cout << "Invalid credentials, try again.\n" << endl;
+            }
         }
-        else
+        catch (const runtime_error &)
         {
-            cout << "Invalid credentials, try again.\n" << endl;
+            cout << "Invalid username. Please try again.\n" << endl;
         }
     }
 
     cout << "Maximum login attempts reached.\n" << endl;
 }
+
+
+

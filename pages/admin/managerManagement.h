@@ -50,7 +50,48 @@ void displayManager()
     managerDao->printall();
 }
 
-void modifyManagerStatus()
+void modifyManagerStatus() 
 {
+    ManagerDao *managerDao = ManagerDao::getInstance();
 
+    while (true) {
+        int choice;
+        cout << "\nModify Manager Status:\n";
+        cout << "1. Update manager status\n";
+        cout << "0. Return\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 0) {
+            return; // User chose to return
+        } else if (choice == 1) {
+            int id;
+            cout << "Enter the ID of the manager: ";
+            cin >> id;
+
+            bool newActiveStatus;
+            string statusInput;
+            cout << "Enter new status (active or inactive): ";
+            cin >> statusInput;
+
+            if (statusInput == "active") {
+                newActiveStatus = true;
+            } else if (statusInput == "inactive") {
+                newActiveStatus = false;
+            } else {
+                cout << "Invalid status. Use 'active' or 'inactive'." << endl;
+                continue;
+            }
+
+            if (managerDao->updateManagerStatus(id, newActiveStatus)) {
+                cout << "Manager status updated successfully." << endl;
+            } else {
+                cout << "Manager not found." << endl;
+            }
+        } else {
+            cout << "Invalid choice. Please choose a valid option." << endl;
+        }
+    }
 }
+
+
