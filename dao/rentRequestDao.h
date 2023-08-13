@@ -228,7 +228,7 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
     rentRequest.setApprove(input);
     if (input == 1)
     {
-        cout << "Tenancy process completed. Rent Request ID: "" << rentRequest.getId() << "" is rejected." << endl;
+        cout << "Tenancy process completed. Rent Request ID: \"" << rentRequest.getId() << "\" is rejected." << endl;
         return false;
     }
 
@@ -278,6 +278,9 @@ bool RentRequestDao::managePaymentProcess(RentRequest& rentRequest) {
     {
         // Mark the payment as made
         rentRequest.setPaid(true);
+        Tenant &tenant = rentRequest.getTenant();
+        Property property = rentRequest.getProperty();
+        tenant.addRentHistoryPropertyList(property);
         cout << "Payment process completed. Rent Request ID: " << rentRequest.getId() << " payment is made." << endl;
         return true;
     }

@@ -26,6 +26,7 @@ public:
     {
         // Code to output the object's data to the ostream
         os << "Rent Request Details:" << endl;
+        os << "Rent Request ID: " << rentRequest.getId() << endl;
         os << "User ID: " << rentRequest.getTenant().getUserId() << endl;
         os << "Username: " << rentRequest.getTenant().getUsername() << endl;
         os << rentRequest.getProperty() << endl;

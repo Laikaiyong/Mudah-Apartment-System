@@ -32,12 +32,12 @@ void manageTentReqPage()
         switch(choice)
         {
         case 1:
-            cout << "Please type the page number to display the tenant's request\n";
+            cout << "Please type the page number to display the tenant's rent request\n";
             cin >> selectedPage;
             break;
 
         case 2:
-            cout << "Enter Tenant ID to Approve Rent Request\n";
+            cout << "Enter Rent Request ID to Approve Rent Request\n";
             cin >> id;
             if (id == 0)
             {
@@ -56,7 +56,7 @@ void manageTentReqPage()
             return;
 
         case 3:
-            cout << "Enter Tenant ID to Update Payment Request\n";
+            cout << "Enter Rent Request ID to Update Payment Request\n";
             cin >> id;
             if (id == 0)
             {
@@ -66,8 +66,14 @@ void manageTentReqPage()
             if (rentrequestDao->managePaymentProcess(rentrequest))
              {
                 cout << "Payment has been confirmed." << endl;
+                
             }
+            else
+            {
                 cout << "Payment has not been made." << endl;
+            }  
+            cout << "Press any key to continue.\n";
+            cin >> anyKey; 
             return;
 
         default:
