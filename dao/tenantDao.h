@@ -193,17 +193,8 @@ bool TenantDao::deleteInactiveTenantById(int id)
     {
         return false; // Cannot delete active tenant
     }
-
-    // Check for inactivity status (assuming isInactive() method is available in Tenant class)
-    if (foundTenant.isInactive())
-    {
-        this->list->remove(index); // Delete inactive tenant
-        return true;
-    }
-    else
-    {
-        return false; // Tenant is active or not inactive, do not delete
-    }
+    this->list->remove(index); // Delete inactive tenant
+    return true;
 }
 
 Tenant *TenantDao::getAllTenant(int &size)

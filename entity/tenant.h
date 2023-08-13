@@ -13,8 +13,7 @@ class Tenant : public User
     CiruclarLinkedList<Property> *favourtitePropertyList;
     ArrayList<Property> *rentHistoryPropertyList;
     bool active;
-    bool inactive;
-
+    
 public:
     Tenant() : favourtitePropertyList(nullptr), rentHistoryPropertyList(nullptr){};
 
@@ -36,17 +35,6 @@ public:
     bool isActive()
     {
         return active;
-    }
-
-    bool isInactive()
-    {
-        return inactive;
-    }
-
-    void setInactive(bool newInactive) 
-    {
-        setActive(false);
-        inactive = newInactive;
     }
 
     void setActive(bool newActive)

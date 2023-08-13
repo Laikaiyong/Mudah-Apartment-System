@@ -189,11 +189,11 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
         cout << "Rent Request ID : \"" << rentRequest.getId() << "\" is not found, please try again." << endl;
         return false;
     }
-    rentRequest = this->list->get(index);
+    RentRequest &tempRentRequest = this->list->get(index);
 
     PropertyDao *propertyDao = PropertyDao::getInstance();
 
-    optional<Property> optionalProperty = propertyDao->getById(rentRequest.getProperty().getAdsId());
+    optional<Property> optionalProperty = propertyDao->getById(tempRentRequest.getProperty().getAdsId());
     Property property = optionalProperty.value();
 
     // Check if the property is available for rent
@@ -208,13 +208,13 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
         return false;
     }
     // Check if the request is already approved
-    if (rentRequest.getApprove() != 0)
+    if (tempRentRequest.getApprove() != 0)
     {
         cout << "Rent request is already approved." << endl;
         return false;
     }
     int input;
-    cout << rentRequest << endl;
+    cout << tempRentRequest << endl;
     cout << "------------------------------" << endl;
     cout << "Select an option:\n";
     cout << "1: Approve\n";
@@ -225,14 +225,14 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
         cout << "Invalid Option" << endl;
         return false;
     }
-    rentRequest.setApprove(input);
+    tempRentRequest.setApprove(input);
     if (input == 1)
     {
-        cout << "Tenancy process completed. Rent Request ID: \"" << rentRequest.getId() << "\" is approved." << endl;
+        cout << "Tenancy process completed. Rent Request ID: \"" << tempRentRequest.getId() << "\" is approved." << endl;
     }
     if (input == 2)
     {
-        cout << "Tenancy process completed. Rent Request ID: \"" << rentRequest.getId() << "\" is rejected." << endl;
+        cout << "Tenancy process completed. Rent Request ID: \"" << tempRentRequest.getId() << "\" is rejected." << endl;
         return false;
     }
 
@@ -250,24 +250,24 @@ bool RentRequestDao::managePaymentProcess(RentRequest &rentRequest)
         cout << "Rent Request ID: " << rentRequest.getId() << " is not found, please try again." << endl;
         return false;
     }
-    rentRequest = this->list->get(index);
+    RentRequest &tempRentRequest = this->list->get(index);
 
     // Check if the request is already approved
-    if (rentRequest.getApprove() != 1)
+    if (tempRentRequest.getApprove() != 1)
     {
         cout << "Rent request is not approved." << endl;
         return false;
     }
 
     // Check if the payment is already made
-    if (rentRequest.isPaid())
+    if (tempRentRequest.isPaid())
     {
         cout << "Payment is already made." << endl;
         return false;
     }
 
     int input;
-    cout << rentRequest << endl;
+    cout << tempRentRequest << endl;
     cout << "------------------------------" << endl;
     cout << "Select an option:\n";
     cout << "1: Update Payment\n";
@@ -282,11 +282,11 @@ bool RentRequestDao::managePaymentProcess(RentRequest &rentRequest)
     if (input == 1)
     {
         // Mark the payment as made
-        rentRequest.setPaid(true);
-        Tenant &tenant = rentRequest.getTenant();
-        Property property = rentRequest.getProperty();
+        tempRentRequest.setPaid(true);
+        Tenant &tenant = tempRentRequest.getTenant();
+        Property property = tempRentRequest.getProperty();
         tenant.addRentHistoryPropertyList(property);
-        cout << "Payment process completed. Rent Request ID: " << rentRequest.getId() << " payment is made." << endl;
+        cout << "Payment process completed. Rent Request ID: " << tempRentRequest.getId() << " payment is made." << endl;
         return true;
     }
     else

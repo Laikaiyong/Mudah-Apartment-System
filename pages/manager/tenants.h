@@ -78,7 +78,7 @@ void tenentsPage()
             }
             if (tenantDao->deleteInactiveTenantById(id))
             {
-                cout << "Successfully remove tenantid: " + id << " from database\n";
+                cout << "Successfully remove tenant ID: " + id << " from database\n";
                 cout << "Press any key to continue.\n";
                 cin >> anyKey;
                 return;
