@@ -54,9 +54,11 @@ public:
 
     void sortByDesc();
 
-    void sortIdByAsc();
+    void sortMonthlyRentByDesc();
+    void sortLocationByDesc();
+    void sortSizeByDesc();
 
-    void sortMonthlyRentByAsc();
+    void sortIdByAsc();
 
     template <typename Filter>
     void filter(Filter compare);
@@ -244,17 +246,44 @@ void PropertyDao::sortIdByAsc()
     cout << "Finish sort ID by ascending order" << endl;
 }
 
-void PropertyDao::sortMonthlyRentByAsc()
+void PropertyDao::sortMonthlyRentByDesc()
 {
-    if (PropertyDao::currentSort == 2)
+    if (PropertyDao::currentSort == 1)
     {
         return;
     }
-    quickSort(list->getArray(), 0, list->getSize() - 1, [](Property &p1, Property &p2)
-              { return p1.getMonthlyRent() < p2.getMonthlyRent(); });
-    PropertyDao::currentSort = 2;
-    cout << "Finish sort Monthly Rent by ascending order" << endl;
+    quickSort(list->getArray(),  0, list->getSize(), [](Property &p1, Property &p2)
+              { return p1.getMonthlyRent() > p2.getMonthlyRent(); });
+    PropertyDao::currentSort = 1;
+    cout << "Finish sort monthly rent by descending order" << endl;
 }
+
+void PropertyDao::sortLocationByDesc()
+{
+    if (PropertyDao::currentSort == 1)
+    {
+        return;
+    }
+
+    mergeSort(list->getArray(), list->getSize(), [](Property &p1, Property &p2)
+              { return p1.getLocation() > p2.getLocation(); });
+    PropertyDao::currentSort = 1;
+    cout << "Finish sort location by descending order" << endl;
+}
+
+void PropertyDao::sortSizeByDesc()
+{
+    if (PropertyDao::currentSort == 1)
+    {
+        return;
+    }
+
+    quickSort(list->getArray(), 0, list->getSize(), [](Property &p1, Property &p2)
+              { return p1.getSize() >= p2.getSize(); });
+    PropertyDao::currentSort = 1;
+    cout << "Finish sort size by descending order" << endl;
+}
+
 
 template <typename Filter>
 void PropertyDao::filter(Filter compare)

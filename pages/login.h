@@ -100,7 +100,7 @@ void managerLoginPage()
         if (managerOpt.has_value()) {
             Manager manager = managerOpt.value();
 
-            if (manager.login(username, password))
+            if (manager.login(username, password) && manager.getStatus() == "Active")
             {
                 cout << "Manager login successful!" << endl;
                 managerDao->setCurrentManager(manager.getUserId());
@@ -109,7 +109,14 @@ void managerLoginPage()
             }
             else
             {
-                cout << "Invalid credentials, try again.\n" << endl;
+                if (manager.getStatus() == "Inactive")
+                {
+                    cout << "Inactive manager unable to login, please contact admin\n" << endl;
+                }
+                else
+                {
+                    cout << "Invalid credentials, try again.\n" << endl;
+                }
             }
         }
         else
