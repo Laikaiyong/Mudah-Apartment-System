@@ -3,6 +3,7 @@
 #include "../../dao/rentRequestDao.h"
 #include "tenants.h"
 #include "manageTenancyReq.h"
+#include "functionality/generateReport.h"
 using namespace std;
 
  void managerHome() {
@@ -27,7 +28,7 @@ using namespace std;
                 tenentsPage();
                 break;
             case 2:
-                //();
+                generateTop10FavourtieProperty();
                 break;
             case 3:
                 manageTentReqPage();
