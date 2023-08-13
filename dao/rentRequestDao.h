@@ -186,7 +186,7 @@ bool RentRequestDao::manageTenancyProcess(RentRequest &rentRequest)
                              { return r1.getId() < r2.getId(); });
     if (index == -1)
     {
-        cout << "Rent Request ID : "" << rentRequest.getId() << "" is not found, please try again." << endl;
+        cout << "Rent Request ID : \"" << rentRequest.getId() << "\" is not found, please try again." << endl;
         return false;
     }
     rentRequest = this->list->get(index);
